@@ -66,21 +66,13 @@ def get_players_statics_by_team_season(dict, season):
 
 
     
-# teams = get_teams_by_season(season)
-# players = get_players_information_by_team_season(teams)
-# games = get_game_log(season, "T")
+teams = get_teams_by_season(season)
+players = get_players_information_by_team_season(teams)
+complete_data = get_players_statics_by_team_season(players,season)
+games = get_game_log(season, "T")
 
-# Salvar os dados em um arquivo JSON
-# with open('teams_season_players.json', 'w') as f:
-#     json.dump(players, f, indent=4)
-
-# with open('game_logs.json', 'w') as f:
-#     json.dump(games, f, indent=4)
-
-with open('teams_season_players.json', 'r') as f:
-    dictonary = json.load(f)
-
-complete_data = get_players_statics_by_team_season(dictonary, season)
+with open('game_logs.json', 'w') as f:
+    json.dump(games, f, indent=4)
 
 with open('teams_for_players_for_statics.json', 'w') as f:
     json.dump(complete_data, f, indent=4)
