@@ -8,7 +8,7 @@ import json
 import os
 
 # Configurar a temporada desejada
-season = '2022-23'
+season = '2021-22'
 
 def get_teams_by_season(season):
     all_teams_by_season = []
@@ -21,7 +21,7 @@ def get_teams_by_season(season):
         team["season"] = season
         if not season_stats.empty:
             all_teams_by_season.append(team)
-        os.system("sleep 1")
+        os.system("sleep 0,5")
     
     return all_teams_by_season
 
@@ -29,7 +29,7 @@ def get_players_information_by_team_season(teams):
     for team in teams:
         players = commonteamroster.CommonTeamRoster(team_id=team['id'], season=team["season"])
         team.update({"players": players.get_data_frames()[0].to_dict(orient='records')})
-        os.system("sleep 1")
+        os.system("sleep 0,5")
     
     return teams
 
@@ -42,14 +42,12 @@ def get_players_statics_by_team_season(dict, season):
         team_id = team["id"]
         for player in team["players"]:
             games_log = PlayerGameLog(player_id=player["PLAYER_ID"], season=season).get_data_frames()[0].to_dict(orient='records')
-            os.system("sleep 1")
+            os.system("sleep 0,5")
             for game in games_log:
                 game['team_id'] = team_id
             player.update({"statics":games_log})
 
     return dict
-
-
     
 teams = get_teams_by_season(season)
 players = get_players_information_by_team_season(teams)
