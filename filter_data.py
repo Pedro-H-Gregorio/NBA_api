@@ -1,4 +1,11 @@
 import json
+import copy
+
+with open('teams_for_players_for_statics.json','r') as f:
+    data = json.loads(f.read())
+
+with open('game_logs.json','r') as f:
+    games_log = json.loads(f.read())
 
 def extract_player_info(player, team_id):
     return {
@@ -45,53 +52,46 @@ def extract_team_statics_info(statics):
         "wl": statics.get("WL")
     }
 
-def fitler_teams(season_id):
-  with open('teams_for_players_for_statics.json','r') as f:
-    data = json.loads(f.read())
+def fitler_teams(data):
+  teams = copy.deepcopy(data)
 
-  for team in data:
-    # team.update({"season_id":season_id})
+  for team in teams:
     team.pop("players")
     team.pop("season")
 
-  return data
+  return teams
 
-def filter_players():
-  with open('teams_for_players_for_statics.json','r') as f:
-    data = json.loads(f.read())
-  
+def filter_players(data):
+  players = copy.deepcopy(data)
   all_players = []
 
-  for teams in data:
+  for teams in players:
     for player in teams['players']:
       all_players.append(extract_player_info(player, teams['id']))
   
   return all_players
 
-def filter_player_statics():
+def filter_player_statics(data):
+  players_statics = copy.deepcopy(data)
   all_statics = []
-  with open('teams_for_players_for_statics.json','r') as f:
-    data = json.loads(f.read())
-    for teams in data:
-      for player in teams['players']:
-        for static in player['statics']:
-          all_statics.append(extract_player_statics_info(static))
+  for teams in players_statics:
+    for player in teams['players']:
+      for static in player['statics']:
+        all_statics.append(extract_player_statics_info(static))
   
   return all_statics
 
-def filter_game():
-  with open('game_logs.json','r') as f:
-    data = json.loads(f.read())
-
+def filter_game(games_log):
+  games_logs = copy.deepcopy(games_log)
   games = []
 
-  while len(data) > 0:
-    team_one = data.pop(0)
+  while len(games_logs) > 0:
+    team_one = games_logs.pop(0)
     team_two = {}
-    for game_two in data:
+    for game_two in games_logs:
       if game_two["GAME_ID"] == team_one["GAME_ID"]:
         team_two = game_two
-        data.remove(game_two)
+        games_logs.remove(game_two)
         break
     position_one = 'home'
     position_two = 'away'
@@ -117,24 +117,20 @@ def filter_game():
 
     
 
-def filter_teams_statics():
-  with open('game_logs.json','r') as f:
-    data = json.loads(f.read())
-
+def filter_teams_statics(games_log):
+  games_logs = copy.deepcopy(games_log)
   statics = []
 
-  for games in data:
+  for games in games_logs:
     statics.append(extract_team_statics_info(games))
   
   return statics
 
-def filter_player_season(season_id):
-  with open('teams_for_players_for_statics.json','r') as f:
-    data = json.loads(f.read())
-  
+def filter_player_season(data,season_id):
+  players = copy.deepcopy(data)
   all_id = []
 
-  for team in data:
+  for team in players:
     for player in team["players"]:
       id_player = player.get("PLAYER_ID")
       id_season = season_id
@@ -145,13 +141,11 @@ def filter_player_season(season_id):
   
   return all_id
 
-def filter_team_season(season):
-  with open('teams_for_players_for_statics.json','r') as f:
-    data = json.loads(f.read())
-  
+def filter_team_season(data,season):
+  teams = copy.deepcopy(data)
   all_id = []
 
-  for team in data:
+  for team in teams:
     all_id.append({'id': season + str(team.get("id")),
                       'season_id': season,
                       'team_id': team.get("id")})
@@ -159,14 +153,14 @@ def filter_team_season(season):
   
   return all_id
 
-dic_general = {"season": [{"id": "22022", "year": 2022}],
-               "team": fitler_teams("22022"),
-               "player": filter_players(),
-               "game": filter_game(),
-               "players_statistics": filter_player_statics(),
-               "team_statistics": filter_teams_statics(),
-               "player_season": filter_player_season("22022"),
-               "season_team": filter_team_season("22022")},
+dic_general = {"season": [{"id": games_log[0]["SEASON_ID"], "year": data[0]["season"]}],
+               "team": fitler_teams(data),
+               "player": filter_players(data),
+               "game": filter_game(games_log),
+               "players_statistics": filter_player_statics(data),
+               "team_statistics": filter_teams_statics(games_log),
+               "player_season": filter_player_season(data,games_log[0]["SEASON_ID"]),
+               "season_team": filter_team_season(data,games_log[0]["SEASON_ID"])},
 
 with open('./results/results.json', 'w') as f:
     json.dump(dic_general, f, indent=4)

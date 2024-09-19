@@ -10,22 +10,6 @@ import os
 # Configurar a temporada desejada
 season = '2022-23'
 
-def get_season_statics_team(season):
-    all_teams_stats = []
-    nba_teams = teams.get_teams()
-    for team in nba_teams:
-        team_id = team['id']
-        team_name = team['full_name']
-        team_stats = TeamYearByYearStats(team_id=team_id).get_data_frames()[0]
-        season_stats = team_stats[team_stats['YEAR'] == season]
-        season_stats_dict = season_stats.to_dict(orient='records')
-        for record in season_stats_dict:
-            record['Team Name'] = team_name
-            record['Team ID'] = team_id
-    
-    all_teams_stats.extend(season_stats_dict)
-
-
 def get_teams_by_season(season):
     all_teams_by_season = []
     nba_teams = teams.get_teams()
