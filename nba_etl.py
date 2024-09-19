@@ -56,9 +56,9 @@ players = get_players_information_by_team_season(teams)
 complete_data = get_players_statics_by_team_season(players,season)
 games_statics = get_game_log(season, "T")
 
-with open('game_logs.json', 'w') as f:
+with open('./temp/game_logs.json', 'w') as f:
     json.dump(games_statics, f, indent=4)
 
-with open('teams_for_players_for_statics.json', 'w') as f:
+with open('./temp/teams_for_players_for_statics.json', 'w') as f:
     json.dump(complete_data, f, indent=4)
 print("Dados salvos no arquivo seasons.json.")

@@ -1,10 +1,10 @@
 import json
 import copy
 
-with open('teams_for_players_for_statics.json','r') as f:
+with open('./temp/teams_for_players_for_statics.json','r') as f:
     data = json.loads(f.read())
 
-with open('game_logs.json','r') as f:
+with open('./temp/game_logs.json','r') as f:
     games_log = json.loads(f.read())
 
 def extract_player_info(player, team_id):
