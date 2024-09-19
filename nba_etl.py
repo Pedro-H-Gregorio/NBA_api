@@ -3,6 +3,7 @@ from nba_api.stats.endpoints import TeamYearByYearStats
 from nba_api.stats.endpoints import commonteamroster
 from nba_api.stats.endpoints import LeagueGameLog
 from nba_api.stats.endpoints import PlayerGameLog
+from nba_api.stats.endpoints import leaguegamefinder
 import json
 import os
 
@@ -69,12 +70,11 @@ def get_players_statics_by_team_season(dict, season):
 teams = get_teams_by_season(season)
 players = get_players_information_by_team_season(teams)
 complete_data = get_players_statics_by_team_season(players,season)
-games = get_game_log(season, "T")
+games_statics = get_game_log(season, "T")
 
 with open('game_logs.json', 'w') as f:
-    json.dump(games, f, indent=4)
+    json.dump(games_statics, f, indent=4)
 
 with open('teams_for_players_for_statics.json', 'w') as f:
     json.dump(complete_data, f, indent=4)
-
 print("Dados salvos no arquivo seasons.json.")
