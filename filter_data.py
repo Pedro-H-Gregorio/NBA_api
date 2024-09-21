@@ -48,7 +48,7 @@ def extract_team_statics_info(statics):
         "perimeter_baskets": statics.get("FGA"),
         "free_throws": statics.get("FTA"),
         "team_id": statics.get("TEAM_ID"),
-        "game_id": statics.get("Game_ID"),
+        "game_id": statics.get("GAME_ID"),
         "wl": statics.get("WL")
     }
 
@@ -162,5 +162,5 @@ dic_general = {"season": [{"id": games_log[0]["SEASON_ID"], "year": data[0]["sea
                "player_season": filter_player_season(data,games_log[0]["SEASON_ID"]),
                "season_team": filter_team_season(data,games_log[0]["SEASON_ID"])},
 
-with open('./results/results'+data[0]["season"]+'.json', 'w') as f:
+with open('./results/results.json', 'w') as f:
     json.dump(dic_general, f, indent=4)

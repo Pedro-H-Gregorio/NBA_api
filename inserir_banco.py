@@ -17,31 +17,28 @@ with open('./results/results.json','r') as f:
   data = json.loads(f.read())
 
 def upsert_manual(tabela, valores, chave_primaria, conn):
-        trans = conn.begin()
-        try:
-          for valor in valores:
-            chave_valor = valor[chave_primaria]
-            select_stmt = select([tabela]).where(tabela.c[chave_primaria] == chave_valor)
-            result = conn.execute(select_stmt).fetchone()
+  try:
+    for valor in valores:
+      chave_valor = valor[chave_primaria]
+      select_stmt = select(tabela).where(tabela.c[chave_primaria] == chave_valor)
+      result = conn.execute(select_stmt).fetchone()
 
-            if result is None:
-                insert_stmt = insert(tabela).values(valor)
-                conn.execute(insert_stmt)
-            else:
-                update_stmt = update(tabela).where(tabela.c[chave_primaria] == chave_valor).values(valor)
-                conn.execute(update_stmt)
-          trans.commit()
-        except Exception as e:
-            trans.rollback()
-            raise e
+      if result is None:
+          insert_stmt = insert(tabela).values(valor)
+          conn.execute(insert_stmt)
+      else:
+          update_stmt = update(tabela).where(tabela.c[chave_primaria] == chave_valor).values(valor)
+          conn.execute(update_stmt)
+  except Exception as e:
+    raise e
 
 engine = create_engine('postgresql+psycopg2://', creator=get_connection, poolclass=NullPool)
 
 
 metadata = MetaData()
-metadata.reflect(bind=engine)
 
 with engine.begin() as connection:
+    metadata.reflect(bind=engine)
     for key in data[0]:
         table = Table(key, metadata, autoload_with=engine)
         upsert_manual(table, data[0][key], "id", connection)
