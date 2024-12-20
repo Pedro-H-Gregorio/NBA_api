@@ -1,0 +1,6 @@
+user User -DELETE(season_id, Token) /temporada/{id}-> seasonController SeasonController  
+seasonController SeasonController -deleteSeason(season_id)-> seasonRepository SeasonRepository  
+seasonRepository SeasonRepository -deleteSeason(season_id)-> database Database  
+database Database -.-> seasonRepository SeasonRepository  
+seasonRepository SeasonRepository -.-> seasonController SeasonController  
+seasonController SeasonController -SEND(status)-> user User  

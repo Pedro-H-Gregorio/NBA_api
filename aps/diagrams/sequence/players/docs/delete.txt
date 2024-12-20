@@ -1,0 +1,6 @@
+user User -DELETE(id, Token) /jogador/{id}-> playerController PlayerController  
+playerController PlayerController -deletePlayer(id)-> playerRepository PlayerRepository  
+playerRepository PlayerRepository -deletePlayer(id)-> database Database  
+database Database -.-> playerRepository PlayerRepository  
+playerRepository PlayerRepository -.-> playerController PlayerController  
+playerController PlayerController -SEND(status)-> user User  

@@ -1,0 +1,6 @@
+user User -GET(Token) /jogos-> gameController GameController  
+gameController GameController -getGame()-> gameRepository GameRepository  
+gameRepository GameRepository -getGame()-> database Database  
+database Database -.-> gameRepository GameRepository  
+gameRepository GameRepository -.-> gameController GameController  
+gameController GameController -SEND(status, Games)-> user User  

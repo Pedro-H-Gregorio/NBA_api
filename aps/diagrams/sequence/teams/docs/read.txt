@@ -1,0 +1,6 @@
+user User -GET(Token) /times-> teamController TeamController  
+teamController TeamController -getTeam()-> teamRepository TeamRepository  
+teamRepository TeamRepository -getTeam()-> database Database  
+database Database -.-> teamRepository TeamRepository  
+teamRepository TeamRepository -.-> teamController TeamController  
+teamController TeamController -SEND(status, Teams)-> user User 

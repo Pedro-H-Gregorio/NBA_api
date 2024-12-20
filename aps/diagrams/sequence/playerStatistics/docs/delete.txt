@@ -1,0 +1,6 @@
+user User -DELETE(id, Token) /estatisticas_jogadore/{id}-> statsController StatsController  
+statsController StatsController -deletePlayerStats(id)-> statsRepository StatsRepository  
+statsRepository StatsRepository -deletePlayerStats(id)-> database Database  
+database Database -.-> statsRepository StatsRepository  
+statsRepository StatsRepository -.-> statsController StatsController  
+statsController StatsController -SEND(status)-> user User  

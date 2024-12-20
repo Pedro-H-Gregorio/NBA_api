@@ -1,0 +1,6 @@
+user User -POST(game_id, matchup, Token) /jogo-> gameController GameController  
+gameController GameController -addGame(game_id, matchup)-> gameRepository GameRepository  
+gameRepository GameRepository -addGame(game_id, matchup)-> database Database  
+database Database -.-> gameRepository GameRepository  
+gameRepository GameRepository -.-> gameController GameController  
+gameController GameController -SEND(status, Game)-> user User  

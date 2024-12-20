@@ -1,0 +1,6 @@
+user User -DELETE(team_id, Token) /estatisticas_time/{id}-> teamStatsController TeamStatsController  
+teamStatsController TeamStatsController -deleteTeamStats(team_id)-> teamStatsRepository TeamStatsRepository  
+teamStatsRepository TeamStatsRepository -deleteTeamStats(team_id)-> database Database  
+database Database -.-> teamStatsRepository TeamStatsRepository  
+teamStatsRepository TeamStatsRepository -.-> teamStatsController TeamStatsController  
+teamStatsController TeamStatsController -SEND(status)-> user User  

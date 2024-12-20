@@ -1,0 +1,6 @@
+user User -DELETE(game_id, Token) /jogo/{}-> gameController GameController  
+gameController GameController -deleteGame(game_id)-> gameRepository GameRepository  
+gameRepository GameRepository -deleteGame(game_id)-> database Database  
+database Database -.-> gameRepository GameRepository  
+gameRepository GameRepository -.-> gameController GameController  
+gameController GameController -SEND(status)-> user User 

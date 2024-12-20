@@ -1,0 +1,6 @@
+user User -PUT(id, points, assists, rebounds, steals, blocks, three_pointers, two_pointers, free_throws, Token) /estatisticas_jogador/{id}-> statsController StatsController  
+statsController StatsController -updatePlayerStats(id, points, assists, rebounds, steals, blocks, three_pointers, two_pointers, free_throws)-> statsRepository StatsRepository  
+statsRepository StatsRepository -updatePlayerStats(id, points, assists, rebounds, steals, blocks, three_pointers, two_pointers, free_throws)-> database Database  
+database Database -.-> statsRepository StatsRepository  
+statsRepository StatsRepository -.-> statsController StatsController  
+statsController StatsController -SEND(status, PlayerStats)-> user User  

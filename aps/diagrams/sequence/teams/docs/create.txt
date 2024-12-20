@@ -1,0 +1,6 @@
+user User -POST(full_name, nickname, abbreviation, year_founded, city, state,Token) /time-> teamController TeamController
+teamController TeamController -addTeam(full_name, nickname, abbreviation, year_founded, city, state)-> teamRepository TeamRepositorty
+teamRepository TeamRepositorty -addTeam(full_name, nickname, abbreviation, year_founded, city, state)-> database Database
+database Database -.-> teamRepository TeamRepositorty
+teamRepository TeamRepositorty -.-> teamController TeamController
+teamController TeamController -SEND(status, Team)-> user User
