@@ -1,0 +1,6 @@
+user User -GET(Token) /temporadas-> seasonController SeasonController  
+seasonController SeasonController -getSeasons()-> seasonRepository SeasonRepository  
+seasonRepository SeasonRepository -getSeasons()-> database Database  
+database Database -.-> seasonRepository SeasonRepository  
+seasonRepository SeasonRepository -.-> seasonController SeasonController  
+seasonController SeasonController -SEND(status, Seasons)-> user User  

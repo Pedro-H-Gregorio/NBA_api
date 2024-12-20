@@ -1,0 +1,6 @@
+user User -PUT(season_id, season_year, Token) /temporada/{id}-> seasonController SeasonController  
+seasonController SeasonController -updateSeason(season_id, season_year)-> seasonRepository SeasonRepository  
+seasonRepository SeasonRepository -updateSeason(season_id, season_year)-> database Database  
+database Database -.-> seasonRepository SeasonRepository  
+seasonRepository SeasonRepository -.-> seasonController SeasonController  
+seasonController SeasonController -SEND(status, Season)-> user User 

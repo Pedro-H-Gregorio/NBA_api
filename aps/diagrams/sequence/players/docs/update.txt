@@ -1,0 +1,6 @@
+user User -PUT(id, full_name, nickname, birth_date, jersey_number, position, weight, height, Token) /jogador{id}-> playerController PlayerController  
+playerController PlayerController -updatePlayer(id, full_name, nickname, birth_date, jersey_number, position, weight, height)-> playerRepository PlayerRepository  
+playerRepository PlayerRepository -updatePlayer(id, full_name, nickname, birth_date, jersey_number, position, weight, height)-> database Database  
+database Database -.-> playerRepository PlayerRepository  
+playerRepository PlayerRepository -.-> playerController PlayerController  
+playerController PlayerController -SEND(status, Player)-> user User  

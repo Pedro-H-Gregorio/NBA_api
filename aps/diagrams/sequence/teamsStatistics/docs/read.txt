@@ -1,0 +1,6 @@
+user User -GET(Token) /estatisticas_times-> teamStatsController TeamStatsController  
+teamStatsController TeamStatsController -getTeamStats()-> teamStatsRepository TeamStatsRepository  
+teamStatsRepository TeamStatsRepository -getTeamStats()-> database Database  
+database Database -.-> teamStatsRepository TeamStatsRepository  
+teamStatsRepository TeamStatsRepository -.-> teamStatsController TeamStatsController  
+teamStatsController TeamStatsController -SEND(status, TeamStats)-> user User 

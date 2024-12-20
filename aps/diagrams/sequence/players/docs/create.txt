@@ -1,0 +1,6 @@
+user User -POST(id, full_name, nickname, birth_date, jersey_number, position, weight, height,Token) /temporada-> playerController PlayerController
+playerController PlayerController -addPlayer(id, full_name, nickname, birth_date, jersey_number, position, weight, height)-> playerRepository PlayerRepositorty
+playerRepository PlayerRepositorty -addPlayer(id, full_name, nickname, birth_date, jersey_number, position, weight, height)-> database Database
+database Database -.-> playerRepository PlayerRepositorty
+playerRepository PlayerRepositorty -.-> playerController PlayerController
+playerController PlayerController -SEND(status, Player)-> user User

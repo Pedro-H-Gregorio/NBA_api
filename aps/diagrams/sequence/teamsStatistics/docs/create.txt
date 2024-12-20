@@ -1,0 +1,6 @@
+user User -POST(steals, wl, blocks, free_throws, rebounds, points, assists, two_pointers, three_pointers, Token) /estatisticas_time-> teamStatsController TeamStatsController  
+teamStatsController TeamStatsController -addTeamStats(steals, wl, blocks, free_throws, rebounds, points, assists, two_pointers, three_pointers)-> teamStatsRepository TeamStatsRepository  
+teamStatsRepository TeamStatsRepository -addTeamStats(steals, wl, blocks, free_throws, rebounds, points, assists, two_pointers, three_pointers)-> database Database  
+database Database -.-> teamStatsRepository TeamStatsRepository  
+teamStatsRepository TeamStatsRepository -.-> teamStatsController TeamStatsController  
+teamStatsController TeamStatsController -SEND(status, TeamStats)-> user User 

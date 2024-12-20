@@ -1,0 +1,6 @@
+user User -GET(Token) /estatisticas_jogadores-> statsController StatsController  
+statsController StatsController -getPlayerStats()-> statsRepository StatsRepository  
+statsRepository StatsRepository -getPlayerStats()-> database Database  
+database Database -.-> statsRepository StatsRepository  
+statsRepository StatsRepository -.-> statsController StatsController  
+statsController StatsController -SEND(status, PlayerStats)-> user User  

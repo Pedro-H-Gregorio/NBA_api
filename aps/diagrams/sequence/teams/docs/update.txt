@@ -1,0 +1,6 @@
+user User -PUT(team_id, full_name, nickname, abbreviation, year_founded, city, state, Token) /times-> teamController TeamController  
+teamController TeamController -updateTeam(team_id, full_name, nickname, abbreviation, year_founded, city, state)-> teamRepository TeamRepository  
+teamRepository TeamRepository -updateTeam(team_id, full_name, nickname, abbreviation, year_founded, city, state)-> database Database  
+database Database -.-> teamRepository TeamRepository  
+teamRepository TeamRepository -.-> teamController TeamController  
+teamController TeamController -SEND(status, Team)-> user User  
