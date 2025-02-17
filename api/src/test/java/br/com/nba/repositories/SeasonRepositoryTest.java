@@ -1,35 +1,27 @@
 package br.com.nba.repositories;
 
-import br.com.nba.entities.Season;
-import br.com.nba.repositories.PersistenciaDawException;
-import br.com.nba.repositories.impl.RepositoryBaseImpl;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import br.com.nba.api.ApiApplication;
+import br.com.nba.api.entities.Season;
+import br.com.nba.api.repositories.PersistenciaDawException;
+import br.com.nba.api.repositories.interfaces.SeasonRepository;
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest(classes = ApiApplication.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SeasonRepositoryTest {
 
-    private RepositoryBaseImpl<Season, String> repository;
-    private EntityManagerFactory emf;
+    @Autowired
+    private SeasonRepository repository;
 
-    @BeforeAll
-    void setup() {
-        emf = Persistence.createEntityManagerFactory("nba_api");
-        repository = new RepositoryBaseImpl<>(Season.class, emf);
-    }
-
-    @AfterAll
-    void tearDown() {
-        if (emf != null) {
-            emf.close();
-        }
-    }
 
     @Test
     @Order(1)
@@ -65,6 +57,7 @@ class SeasonRepositoryTest {
     void testGetAll() throws PersistenciaDawException {
         List<Season> seasons = repository.getAll();
         assertFalse(seasons.isEmpty());
+        System.out.println(seasons);
     }
 
     @Test

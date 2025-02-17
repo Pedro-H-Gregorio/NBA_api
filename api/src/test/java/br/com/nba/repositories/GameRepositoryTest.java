@@ -1,36 +1,29 @@
 package br.com.nba.repositories;
 
-import br.com.nba.entities.Game;
-import br.com.nba.entities.Season;
-import br.com.nba.entities.Team;
-import br.com.nba.repositories.impl.GameRepositoryImpl;
-import br.com.nba.repositories.interfaces.GameRepository;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import br.com.nba.api.ApiApplication;
+import br.com.nba.api.entities.Game;
+import br.com.nba.api.entities.Season;
+import br.com.nba.api.entities.Team;
+import br.com.nba.api.repositories.PersistenciaDawException;
+import br.com.nba.api.repositories.impl.GameRepositoryImpl;
+import br.com.nba.api.repositories.interfaces.GameRepository;
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest(classes = ApiApplication.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class GameRepositoryTest {
+
+    @Autowired
     private GameRepository gameRepository;
-    private EntityManagerFactory emf;
-
-    @BeforeAll
-    public void setUp() throws Exception {
-        emf = Persistence.createEntityManagerFactory("nba_api");
-        gameRepository = new GameRepositoryImpl(emf);
-    }
-
-    @AfterAll
-    void tearDown() {
-        if (emf != null) {
-            emf.close();
-        }
-    }
 
     @Test
     @Order(1)
@@ -103,7 +96,7 @@ public class GameRepositoryTest {
     @Test
     @Order(5)
     void testDelete() throws PersistenciaDawException {
-        assertNotNull(gameRepository.getByID("0022200001"));
+        assertDoesNotThrow(() -> gameRepository.delete("0022200001"));
         assertNull(gameRepository.getByID("0022200002"));
     }
 }

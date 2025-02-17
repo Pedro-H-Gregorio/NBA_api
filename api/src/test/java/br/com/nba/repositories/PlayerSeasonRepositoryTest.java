@@ -1,37 +1,30 @@
 package br.com.nba.repositories;
 
-import br.com.nba.entities.*;
-import br.com.nba.repositories.impl.PlayerSeasonRepositoryImpl;
-import br.com.nba.repositories.impl.SeasonTeamRepositoryImpl;
-import br.com.nba.repositories.interfaces.PlayerSeasonRepository;
-import br.com.nba.repositories.interfaces.SeasonTeamRepository;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import br.com.nba.api.ApiApplication;
+import br.com.nba.api.entities.Player;
+import br.com.nba.api.entities.PlayerSeason;
+import br.com.nba.api.entities.Season;
+import br.com.nba.api.entities.Team;
+import br.com.nba.api.repositories.PersistenciaDawException;
+import br.com.nba.api.repositories.impl.PlayerSeasonRepositoryImpl;
+import br.com.nba.api.repositories.interfaces.PlayerSeasonRepository;
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest(classes = ApiApplication.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PlayerSeasonRepositoryTest {
 
+    @Autowired
     private PlayerSeasonRepository playerSeasonRepository;
-    private EntityManagerFactory emf;
-
-    @BeforeAll
-    public void setUp() throws Exception {
-        emf = Persistence.createEntityManagerFactory("nba_api");
-        playerSeasonRepository = new PlayerSeasonRepositoryImpl(emf);
-    }
-
-    @AfterAll
-    public void tearDown() throws Exception {
-        if (emf != null && emf.isOpen()) {
-            emf.close();
-        }
-    }
 
     @Test
     @Order(1)
