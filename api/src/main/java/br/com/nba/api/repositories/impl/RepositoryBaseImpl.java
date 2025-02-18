@@ -11,7 +11,7 @@ import java.util.List;
 public class RepositoryBaseImpl<E,T> implements RepositoryBase<E,T> {
 
     @PersistenceContext
-    private EntityManager emf;
+    protected EntityManager emf;
 
     private Class<E> entityClass;
 

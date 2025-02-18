@@ -5,8 +5,9 @@ import br.com.nba.api.entities.Season;
 import br.com.nba.api.entities.SeasonTeam;
 import br.com.nba.api.entities.Team;
 import br.com.nba.api.repositories.PersistenciaDawException;
-import br.com.nba.api.repositories.impl.SeasonTeamRepositoryImpl;
+import br.com.nba.api.repositories.interfaces.SeasonRepository;
 import br.com.nba.api.repositories.interfaces.SeasonTeamRepository;
+import br.com.nba.api.repositories.interfaces.TeamRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +25,12 @@ public class SeasonTeamRepositoryTest {
 
     @Autowired
     private SeasonTeamRepository seasonTeamRepository;
+
+    @Autowired
+    private SeasonRepository seasonRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     @Test
     @Order(1)
@@ -45,6 +52,8 @@ public class SeasonTeamRepositoryTest {
         seasonTeam.setId(season.getId() + team.getId().toString());
         seasonTeam.setTeam(team);
         seasonTeam.setSeason(season);
+        seasonRepository.save(season);
+        teamRepository.save(team);
         assertDoesNotThrow(()-> seasonTeamRepository.save(seasonTeam)); ;
     }
 
@@ -72,5 +81,7 @@ public class SeasonTeamRepositoryTest {
     void testDelete() throws PersistenciaDawException {
         seasonTeamRepository.delete("2024"+1610612737);
         assertNull(seasonTeamRepository.getByID("2024"+1610612737));
+        seasonRepository.delete("2024");
+        teamRepository.delete(1610612737);
     }
 }

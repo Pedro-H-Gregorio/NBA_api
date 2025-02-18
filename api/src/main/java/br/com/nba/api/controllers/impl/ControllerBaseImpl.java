@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class ControllerBaseImpl<E,T> implements ControllerBase<E,T> {
 
-    private final RepositoryBase<E, T> repository;
+    protected RepositoryBase<E, T> repository;
 
     protected ControllerBaseImpl(RepositoryBase<E, T> repository) {
         this.repository = repository;

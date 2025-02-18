@@ -4,8 +4,8 @@ import br.com.nba.api.ApiApplication;
 import br.com.nba.api.entities.Player;
 import br.com.nba.api.entities.Team;
 import br.com.nba.api.repositories.PersistenciaDawException;
-import br.com.nba.api.repositories.impl.PlayerRepositoryImpl;
 import br.com.nba.api.repositories.interfaces.PlayerRepository;
+import br.com.nba.api.repositories.interfaces.TeamRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +23,9 @@ public class PlayerRepositoryTest {
 
     @Autowired
     private PlayerRepository playerRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     @Test
     @Order(1)
@@ -46,7 +49,7 @@ public class PlayerRepositoryTest {
         player.setBirthDate("SEP 06, 2001");
         player.setAge(21);
         player.setTeam(team);
-
+        teamRepository.save(team);
         assertDoesNotThrow(() -> playerRepository.save(player));
     }
 
@@ -94,5 +97,6 @@ public class PlayerRepositoryTest {
     void testDelete() throws PersistenciaDawException {
         assertDoesNotThrow(() -> playerRepository.delete(1631495));
         assertNull(playerRepository.getByID(1631495));
+        teamRepository.delete(1610612737);
     }
 }

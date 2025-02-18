@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -44,11 +46,13 @@ public class TeamStatistics {
     @Column(name = "free_throws", nullable = false)
     private Integer freeThrows;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "team_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "team_statistics_teamfk"))
     private Team team;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "game_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "team_statistics_gamefk"))
     private Game game;
 }

@@ -7,6 +7,8 @@ import br.com.nba.api.entities.Team;
 import br.com.nba.api.repositories.PersistenciaDawException;
 import br.com.nba.api.repositories.impl.GameRepositoryImpl;
 import br.com.nba.api.repositories.interfaces.GameRepository;
+import br.com.nba.api.repositories.interfaces.SeasonRepository;
+import br.com.nba.api.repositories.interfaces.TeamRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +26,12 @@ public class GameRepositoryTest {
 
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private SeasonRepository seasonRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     @Test
     @Order(1)
@@ -57,6 +65,10 @@ public class GameRepositoryTest {
         game.setHomeTeam(homeTeam);
         game.setAwayTeam(awayTeam);
         game.setWinnerTeam(awayTeam);
+
+        seasonRepository.save(season);
+        teamRepository.save(homeTeam);
+        teamRepository.save(awayTeam);
 
         assertDoesNotThrow(() -> gameRepository.save(game));
     }
@@ -98,5 +110,8 @@ public class GameRepositoryTest {
     void testDelete() throws PersistenciaDawException {
         assertDoesNotThrow(() -> gameRepository.delete("0022200001"));
         assertNull(gameRepository.getByID("0022200002"));
+        teamRepository.delete(1610612738);
+        teamRepository.delete(1610612755);
+        seasonRepository.delete("22022");
     }
 }
