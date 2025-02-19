@@ -14,8 +14,6 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 @Entity(name = "SEASON_TEAM")
 @Table(name = "SEASON_TEAM")
-@NamedQuery(name = "findAllTeamsBySeason",
-            query = "SELECT st FROM SEASON_TEAM st WHERE st.season.id = :seasonId")
 public class SeasonTeam {
 
     @Id
