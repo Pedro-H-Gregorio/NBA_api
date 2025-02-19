@@ -45,7 +45,7 @@ class SeasonTeamControllerIntegrationTest {
         seasonTeam.setTeam(team);
         seasonTeam.setSeason(season);
 
-//        ResponseEntity<Season> responseSeason = restTemplate.postForEntity(BASE_URL + "/season", season, Season.class);
+        ResponseEntity<Season> responseSeason = restTemplate.postForEntity(BASE_URL + "/season", season, Season.class);
         ResponseEntity<Team> responseTeam = restTemplate.postForEntity(BASE_URL + "/team", team, Team.class);
         ResponseEntity<SeasonTeam> response = restTemplate.postForEntity(BASE_URL + "/season-teams", seasonTeam, SeasonTeam.class);
 
@@ -99,8 +99,10 @@ class SeasonTeamControllerIntegrationTest {
     @Test
     @Order(5)
     void testDeleteSeasonTeam() {
-        String BASE_URL = "http://localhost:" + port + "/api/season-teams";
-        restTemplate.delete(BASE_URL + "/20241610612737");
+        String BASE_URL = "http://localhost:" + port + "/api";
+        restTemplate.delete(BASE_URL + "/season-teams" + "/20241610612737");
+        restTemplate.delete(BASE_URL + "/season"+"/2024");
+        restTemplate.delete(BASE_URL + "/team"+"/1610612737");
 
         ResponseEntity<SeasonTeam> response = restTemplate.getForEntity(BASE_URL + "/20241610612737", SeasonTeam.class);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
