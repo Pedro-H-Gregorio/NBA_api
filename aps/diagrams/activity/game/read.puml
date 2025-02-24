@@ -1,0 +1,18 @@
+@startuml
+start
+:Usuário envia o formulário (requisição API).;
+:API valida a requisição;
+if () then ([JSON está formatado corretamente.])
+    if () then ([Credenciais do usuário estão autenticadas.])
+        :API consulta os dados na tabela "jogos".;
+        :API estrutura os dados de jogos em formato JSON.;
+        :API retorna o JSON com os dados para o usuário (200 Ok).;    
+    else ([Credenciais do usuário não estão autenticadas.])
+        :API retorna erro de autenticação (401 Unauthorized).;
+    endif
+else ([JSON não está formatado corretamente.])
+    :API retorna erro de formatação (400 Bad Request).;
+endif
+stop
+@enduml
+
