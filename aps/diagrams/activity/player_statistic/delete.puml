@@ -1,0 +1,24 @@
+@startuml
+start
+:Usuário envia o formulário (requisição API).;
+:API valida a requisição;
+if () then ([JSON está formatado corretamente.])
+    if () then ([Credenciais do usuário estão autenticadas.])
+        if () then ([ID fornecido é válido.])
+            :API deleta o registro da tabela "estatisticas_jogadores" do banco de dados.;
+            if () then ([Deleção bem-sucedida.])
+                :API retorna sucesso (200 OK) confirmando a exclusão.;
+            else ([Deleção mal-sucedida.])
+                :API retorna erro interno (500 Internal Server Error).;
+            endif
+        else ([ID fornecido é não válido.])
+            :API retorna erro de validação (422 Unprocessable Entity).;
+        endif
+    else ([Credenciais do usuário não estão autenticadas.])
+        :API retorna erro de autenticação (401 Unauthorized).;
+    endif
+else ([JSON não está formatado corretamente.])
+    :API retorna erro de formatação (400 Bad Request).;
+endif
+stop
+@enduml
