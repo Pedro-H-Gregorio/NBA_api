@@ -40,9 +40,9 @@ public class ControllerBaseImpl<E,T> implements ControllerBase<E,T> {
 
     @Override
     @DeleteMapping(path = {"/{id}"})
-    public ResponseEntity<?> delete(@PathVariable("id") T id) throws PersistenciaDawException {
+    public ResponseEntity<Object> delete(@PathVariable("id") T id) throws PersistenciaDawException {
         Optional<E> entity = Optional.ofNullable(repository.getByID(id));
-        return entity.map(record -> {
+        return entity.map(object -> {
             try {
                 repository.delete(id);
                 return ResponseEntity.ok().build();

@@ -3,7 +3,6 @@ package br.com.nba.api.repositories.impl;
 import br.com.nba.api.repositories.PersistenciaDawException;
 import br.com.nba.api.repositories.interfaces.RepositoryBase;
 import jakarta.persistence.*;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

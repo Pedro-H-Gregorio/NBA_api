@@ -1,7 +1,6 @@
 package br.com.nba.api.repositories.interfaces;
 
 import br.com.nba.api.repositories.PersistenciaDawException;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
