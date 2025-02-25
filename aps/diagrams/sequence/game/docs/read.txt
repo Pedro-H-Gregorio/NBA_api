@@ -1,6 +1,39 @@
-user User -GET(Token) /jogos-> gameController GameController  
-gameController GameController -getGame()-> gameRepository GameRepository  
-gameRepository GameRepository -getGame()-> database Database  
-database Database -.-> gameRepository GameRepository  
-gameRepository GameRepository -.-> gameController GameController  
-gameController GameController -SEND(status, Games)-> user User  
+@startuml
+actor User
+participant GameController
+participant UserController
+participant GameRepository
+participant Database
+
+User -> GameController: GET /jogos (Token)
+activate GameController
+
+GameController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> GameController: Token válido
+    deactivate UserController
+
+    GameController -> GameRepository: getGame()
+    activate GameRepository
+
+    GameRepository -> Database: getGame()
+    activate Database
+
+    Database --> GameRepository: Lista de jogos
+    deactivate Database
+
+    GameRepository --> GameController: Lista de jogos
+    deactivate GameRepository
+
+    GameController --> User: Resposta sucesso (status, Games)
+    deactivate GameController
+else Token inválido
+    UserController --> GameController: Token inválido
+    deactivate UserController
+
+    GameController --> User: Resposta erro (401 Unauthorized)
+    deactivate GameController
+end
+@enduml

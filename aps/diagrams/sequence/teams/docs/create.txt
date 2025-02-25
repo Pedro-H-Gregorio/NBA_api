@@ -1,6 +1,39 @@
-user User -POST(full_name, nickname, abbreviation, year_founded, city, state,Token) /time-> teamController TeamController
-teamController TeamController -addTeam(full_name, nickname, abbreviation, year_founded, city, state)-> teamRepository TeamRepositorty
-teamRepository TeamRepositorty -addTeam(full_name, nickname, abbreviation, year_founded, city, state)-> database Database
-database Database -.-> teamRepository TeamRepositorty
-teamRepository TeamRepositorty -.-> teamController TeamController
-teamController TeamController -SEND(status, Team)-> user User
+@startuml
+actor User
+participant TeamController
+participant UserController
+participant TeamRepository
+participant Database
+
+User -> TeamController: POST /time (full_name, nickname, abbreviation, year_founded, city, state, Token)
+activate TeamController
+
+TeamController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> TeamController: Token válido
+    deactivate UserController
+
+    TeamController -> TeamRepository: addTeam(full_name, nickname, abbreviation, year_founded, city, state)
+    activate TeamRepository
+
+    TeamRepository -> Database: addTeam(full_name, nickname, abbreviation, year_founded, city, state)
+    activate Database
+
+    Database --> TeamRepository: Confirmação
+    deactivate Database
+
+    TeamRepository --> TeamController: Confirmação
+    deactivate TeamRepository
+
+    TeamController --> User: Resposta sucesso (status, Team)
+    deactivate TeamController
+else Token inválido
+    UserController --> TeamController: Token inválido
+    deactivate UserController
+
+    TeamController --> User: Resposta erro (401 Unauthorized)
+    deactivate TeamController
+end
+@enduml

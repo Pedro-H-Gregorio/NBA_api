@@ -1,6 +1,39 @@
-user User -GET(Token) /temporadas-> seasonController SeasonController  
-seasonController SeasonController -getSeasons()-> seasonRepository SeasonRepository  
-seasonRepository SeasonRepository -getSeasons()-> database Database  
-database Database -.-> seasonRepository SeasonRepository  
-seasonRepository SeasonRepository -.-> seasonController SeasonController  
-seasonController SeasonController -SEND(status, Seasons)-> user User  
+@startuml
+actor User
+participant SeasonController
+participant UserController
+participant SeasonRepository
+participant Database
+
+User -> SeasonController: GET /temporadas (Token)
+activate SeasonController
+
+SeasonController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> SeasonController: Token válido
+    deactivate UserController
+
+    SeasonController -> SeasonRepository: getSeasons()
+    activate SeasonRepository
+
+    SeasonRepository -> Database: getSeasons()
+    activate Database
+
+    Database --> SeasonRepository: Lista de temporadas
+    deactivate Database
+
+    SeasonRepository --> SeasonController: Lista de temporadas
+    deactivate SeasonRepository
+
+    SeasonController --> User: Resposta sucesso (status, Seasons)
+    deactivate SeasonController
+else Token inválido
+    UserController --> SeasonController: Token inválido
+    deactivate UserController
+
+    SeasonController --> User: Resposta erro (401 Unauthorized)
+    deactivate SeasonController
+end
+@enduml

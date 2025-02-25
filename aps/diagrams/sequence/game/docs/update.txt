@@ -1,6 +1,39 @@
-user User -PUT(game_id, matchup, Token) /jogo/{id}-> gameController GameController  
-gameController GameController -updateGame(game_id, matchup)-> gameRepository GameRepository  
-gameRepository GameRepository -updateGame(game_id, matchup)-> database Database  
-database Database -.-> gameRepository GameRepository  
-gameRepository GameRepository -.-> gameController GameController  
-gameController GameController -SEND(status, Game)-> user User  
+@startuml
+actor User
+participant GameController
+participant UserController
+participant GameRepository
+participant Database
+
+User -> GameController: PUT /jogo/{id} (game_id, matchup, Token)
+activate GameController
+
+GameController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> GameController: Token válido
+    deactivate UserController
+
+    GameController -> GameRepository: updateGame(game_id, matchup)
+    activate GameRepository
+
+    GameRepository -> Database: updateGame(game_id, matchup)
+    activate Database
+
+    Database --> GameRepository: Confirmação
+    deactivate Database
+
+    GameRepository --> GameController: Confirmação
+    deactivate GameRepository
+
+    GameController --> User: Resposta sucesso (status, Game)
+    deactivate GameController
+else Token inválido
+    UserController --> GameController: Token inválido
+    deactivate UserController
+
+    GameController --> User: Resposta erro (401 Unauthorized)
+    deactivate GameController
+end
+@enduml

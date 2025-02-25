@@ -1,6 +1,39 @@
-user User -GET(Token) /estatisticas_jogadores-> statsController StatsController  
-statsController StatsController -getPlayerStats()-> statsRepository StatsRepository  
-statsRepository StatsRepository -getPlayerStats()-> database Database  
-database Database -.-> statsRepository StatsRepository  
-statsRepository StatsRepository -.-> statsController StatsController  
-statsController StatsController -SEND(status, PlayerStats)-> user User  
+@startuml
+actor User
+participant StatsController
+participant UserController
+participant StatsRepository
+participant Database
+
+User -> StatsController: GET /estatisticas_jogadores (Token)
+activate StatsController
+
+StatsController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> StatsController: Token válido
+    deactivate UserController
+
+    StatsController -> StatsRepository: getPlayerStats()
+    activate StatsRepository
+
+    StatsRepository -> Database: getPlayerStats()
+    activate Database
+
+    Database --> StatsRepository: Lista de PlayerStats
+    deactivate Database
+
+    StatsRepository --> StatsController: Lista de PlayerStats
+    deactivate StatsRepository
+
+    StatsController --> User: Resposta sucesso (status, PlayerStats)
+    deactivate StatsController
+else Token inválido
+    UserController --> StatsController: Token inválido
+    deactivate UserController
+
+    StatsController --> User: Resposta erro (401 Unauthorized)
+    deactivate StatsController
+end
+@enduml

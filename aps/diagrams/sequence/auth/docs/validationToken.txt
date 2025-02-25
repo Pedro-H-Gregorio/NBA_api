@@ -1,0 +1,32 @@
+@startuml
+actor Usuário
+participant API
+participant UserController
+participant BancoDeDados
+
+Usuário -> API: REST /rota (parametos)
+activate API
+
+API -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> API: Token válido
+    deactivate UserController
+
+    API -> BancoDeDados: Realizar ação
+    activate BancoDeDados
+
+    BancoDeDados --> API: Confirmação de ação
+    deactivate BancoDeDados
+
+    API --> Usuário: Resposta sucesso (201 Created)
+    deactivate API
+else Token inválido
+    UserController --> API: Token inválido
+    deactivate UserController
+
+    API --> Usuário: Resposta erro (401 Unauthorized)
+    deactivate API
+end
+@enduml

@@ -1,6 +1,39 @@
-user User -GET(Token) /times-> teamController TeamController  
-teamController TeamController -getTeam()-> teamRepository TeamRepository  
-teamRepository TeamRepository -getTeam()-> database Database  
-database Database -.-> teamRepository TeamRepository  
-teamRepository TeamRepository -.-> teamController TeamController  
-teamController TeamController -SEND(status, Teams)-> user User 
+@startuml
+actor User
+participant TeamController
+participant UserController
+participant TeamRepository
+participant Database
+
+User -> TeamController: GET /times (Token)
+activate TeamController
+
+TeamController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> TeamController: Token válido
+    deactivate UserController
+
+    TeamController -> TeamRepository: getTeams()
+    activate TeamRepository
+
+    TeamRepository -> Database: getTeams()
+    activate Database
+
+    Database --> TeamRepository: Lista de times
+    deactivate Database
+
+    TeamRepository --> TeamController: Lista de times
+    deactivate TeamRepository
+
+    TeamController --> User: Resposta sucesso (status, Teams)
+    deactivate TeamController
+else Token inválido
+    UserController --> TeamController: Token inválido
+    deactivate UserController
+
+    TeamController --> User: Resposta erro (401 Unauthorized)
+    deactivate TeamController
+end
+@enduml

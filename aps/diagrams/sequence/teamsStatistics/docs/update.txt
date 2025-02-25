@@ -1,6 +1,39 @@
-user User -PUT(team_id, steals, wl, blocks, free_throws, rebounds, points, assists, two_pointers, three_pointers, Token) /estatisticas_time/{id}-> teamStatsController TeamStatsController  
-teamStatsController TeamStatsController -updateTeamStats(team_id, steals, wl, blocks, free_throws, rebounds, points, assists, two_pointers, three_pointers)-> teamStatsRepository TeamStatsRepository  
-teamStatsRepository TeamStatsRepository -updateTeamStats(team_id, steals, wl, blocks, free_throws, rebounds, points, assists, two_pointers, three_pointers)-> database Database  
-database Database -.-> teamStatsRepository TeamStatsRepository  
-teamStatsRepository TeamStatsRepository -.-> teamStatsController TeamStatsController  
-teamStatsController TeamStatsController -SEND(status, TeamStats)-> user User  
+@startuml
+actor User
+participant TeamStatsController
+participant UserController
+participant TeamStatsRepository
+participant Database
+
+User -> TeamStatsController: PUT /estatisticas_time/{id} (team_id, steals, wl, blocks, free_throws, rebounds, points, assists, two_pointers, three_pointers, Token)
+activate TeamStatsController
+
+TeamStatsController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> TeamStatsController: Token válido
+    deactivate UserController
+
+    TeamStatsController -> TeamStatsRepository: updateTeamStats(team_id, steals, wl, blocks, free_throws, rebounds, points, assists, two_pointers, three_pointers)
+    activate TeamStatsRepository
+
+    TeamStatsRepository -> Database: updateTeamStats(team_id, steals, wl, blocks, free_throws, rebounds, points, assists, two_pointers, three_pointers)
+    activate Database
+
+    Database --> TeamStatsRepository: Confirmação
+    deactivate Database
+
+    TeamStatsRepository --> TeamStatsController: Confirmação
+    deactivate TeamStatsRepository
+
+    TeamStatsController --> User: Resposta sucesso (status, TeamStats)
+    deactivate TeamStatsController
+else Token inválido
+    UserController --> TeamStatsController: Token inválido
+    deactivate UserController
+
+    TeamStatsController --> User: Resposta erro (401 Unauthorized)
+    deactivate TeamStatsController
+end
+@enduml

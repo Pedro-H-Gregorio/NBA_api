@@ -1,6 +1,39 @@
-user User -DELETE(season_id, Token) /temporada/{id}-> seasonController SeasonController  
-seasonController SeasonController -deleteSeason(season_id)-> seasonRepository SeasonRepository  
-seasonRepository SeasonRepository -deleteSeason(season_id)-> database Database  
-database Database -.-> seasonRepository SeasonRepository  
-seasonRepository SeasonRepository -.-> seasonController SeasonController  
-seasonController SeasonController -SEND(status)-> user User  
+@startuml
+actor User
+participant SeasonController
+participant UserController
+participant SeasonRepository
+participant Database
+
+User -> SeasonController: DELETE /temporada/{id} (season_id, Token)
+activate SeasonController
+
+SeasonController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> SeasonController: Token válido
+    deactivate UserController
+
+    SeasonController -> SeasonRepository: deleteSeason(season_id)
+    activate SeasonRepository
+
+    SeasonRepository -> Database: deleteSeason(season_id)
+    activate Database
+
+    Database --> SeasonRepository: Confirmação
+    deactivate Database
+
+    SeasonRepository --> SeasonController: Confirmação
+    deactivate SeasonRepository
+
+    SeasonController --> User: Resposta sucesso (status)
+    deactivate SeasonController
+else Token inválido
+    UserController --> SeasonController: Token inválido
+    deactivate UserController
+
+    SeasonController --> User: Resposta erro (401 Unauthorized)
+    deactivate SeasonController
+end
+@enduml

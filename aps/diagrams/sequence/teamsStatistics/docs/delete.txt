@@ -1,6 +1,39 @@
-user User -DELETE(team_id, Token) /estatisticas_time/{id}-> teamStatsController TeamStatsController  
-teamStatsController TeamStatsController -deleteTeamStats(team_id)-> teamStatsRepository TeamStatsRepository  
-teamStatsRepository TeamStatsRepository -deleteTeamStats(team_id)-> database Database  
-database Database -.-> teamStatsRepository TeamStatsRepository  
-teamStatsRepository TeamStatsRepository -.-> teamStatsController TeamStatsController  
-teamStatsController TeamStatsController -SEND(status)-> user User  
+@startuml
+actor User
+participant TeamStatsController
+participant UserController
+participant TeamStatsRepository
+participant Database
+
+User -> TeamStatsController: DELETE /estatisticas_time/{id} (team_id, Token)
+activate TeamStatsController
+
+TeamStatsController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> TeamStatsController: Token válido
+    deactivate UserController
+
+    TeamStatsController -> TeamStatsRepository: deleteTeamStats(team_id)
+    activate TeamStatsRepository
+
+    TeamStatsRepository -> Database: deleteTeamStats(team_id)
+    activate Database
+
+    Database --> TeamStatsRepository: Confirmação
+    deactivate Database
+
+    TeamStatsRepository --> TeamStatsController: Confirmação
+    deactivate TeamStatsRepository
+
+    TeamStatsController --> User: Resposta sucesso (status)
+    deactivate TeamStatsController
+else Token inválido
+    UserController --> TeamStatsController: Token inválido
+    deactivate UserController
+
+    TeamStatsController --> User: Resposta erro (401 Unauthorized)
+    deactivate TeamStatsController
+end
+@enduml

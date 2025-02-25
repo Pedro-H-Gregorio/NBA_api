@@ -1,6 +1,39 @@
-user User -POST(id, full_name, nickname, birth_date, jersey_number, position, weight, height,Token) /temporada-> playerController PlayerController
-playerController PlayerController -addPlayer(id, full_name, nickname, birth_date, jersey_number, position, weight, height)-> playerRepository PlayerRepositorty
-playerRepository PlayerRepositorty -addPlayer(id, full_name, nickname, birth_date, jersey_number, position, weight, height)-> database Database
-database Database -.-> playerRepository PlayerRepositorty
-playerRepository PlayerRepositorty -.-> playerController PlayerController
-playerController PlayerController -SEND(status, Player)-> user User
+@startuml
+actor User
+participant PlayerController
+participant UserController
+participant PlayerRepository
+participant Database
+
+User -> PlayerController: POST /temporada (id, full_name, nickname, birth_date, jersey_number, position, weight, height, Token)
+activate PlayerController
+
+PlayerController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> PlayerController: Token válido
+    deactivate UserController
+
+    PlayerController -> PlayerRepository: addPlayer(id, full_name, nickname, birth_date, jersey_number, position, weight, height)
+    activate PlayerRepository
+
+    PlayerRepository -> Database: addPlayer(id, full_name, nickname, birth_date, jersey_number, position, weight, height)
+    activate Database
+
+    Database --> PlayerRepository: Confirmação
+    deactivate Database
+
+    PlayerRepository --> PlayerController: Confirmação
+    deactivate PlayerRepository
+
+    PlayerController --> User: Resposta sucesso (status, Player)
+    deactivate PlayerController
+else Token inválido
+    UserController --> PlayerController: Token inválido
+    deactivate UserController
+
+    PlayerController --> User: Resposta erro (401 Unauthorized)
+    deactivate PlayerController
+end
+@enduml

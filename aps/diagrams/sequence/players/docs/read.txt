@@ -1,6 +1,39 @@
-user User -GET(Token) /jogadores-> playerController PlayerController  
-playerController PlayerController -getPlayer()-> playerRepository PlayerRepository  
-playerRepository PlayerRepository -getPlayer()-> database Database  
-database Database -.-> playerRepository PlayerRepository  
-playerRepository PlayerRepository -.-> playerController PlayerController  
-playerController PlayerController -SEND(status, Players)-> user User  
+@startuml
+actor User
+participant PlayerController
+participant UserController
+participant PlayerRepository
+participant Database
+
+User -> PlayerController: GET /jogadores/{id} (Token)
+activate PlayerController
+
+PlayerController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> PlayerController: Token válido
+    deactivate UserController
+
+    PlayerController -> PlayerRepository: getPlayer(id)
+    activate PlayerRepository
+
+    PlayerRepository -> Database: getPlayer(id)
+    activate Database
+
+    Database --> PlayerRepository: Dados do jogador
+    deactivate Database
+
+    PlayerRepository --> PlayerController: Dados do jogador
+    deactivate PlayerRepository
+
+    PlayerController --> User: Resposta sucesso (status, Player)
+    deactivate PlayerController
+else Token inválido
+    UserController --> PlayerController: Token inválido
+    deactivate UserController
+
+    PlayerController --> User: Resposta erro (401 Unauthorized)
+    deactivate PlayerController
+end
+@enduml

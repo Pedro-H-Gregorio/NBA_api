@@ -1,6 +1,39 @@
-user User -DELETE(id, Token) /jogador/{id}-> playerController PlayerController  
-playerController PlayerController -deletePlayer(id)-> playerRepository PlayerRepository  
-playerRepository PlayerRepository -deletePlayer(id)-> database Database  
-database Database -.-> playerRepository PlayerRepository  
-playerRepository PlayerRepository -.-> playerController PlayerController  
-playerController PlayerController -SEND(status)-> user User  
+@startuml
+actor User
+participant PlayerController
+participant UserController
+participant PlayerRepository
+participant Database
+
+User -> PlayerController: DELETE /jogador/{id} (id, Token)
+activate PlayerController
+
+PlayerController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> PlayerController: Token válido
+    deactivate UserController
+
+    PlayerController -> PlayerRepository: deletePlayer(id)
+    activate PlayerRepository
+
+    PlayerRepository -> Database: deletePlayer(id)
+    activate Database
+
+    Database --> PlayerRepository: Confirmação
+    deactivate Database
+
+    PlayerRepository --> PlayerController: Confirmação
+    deactivate PlayerRepository
+
+    PlayerController --> User: Resposta sucesso (status)
+    deactivate PlayerController
+else Token inválido
+    UserController --> PlayerController: Token inválido
+    deactivate UserController
+
+    PlayerController --> User: Resposta erro (401 Unauthorized)
+    deactivate PlayerController
+end
+@enduml

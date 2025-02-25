@@ -1,6 +1,39 @@
-user User -DELETE(id, Token) /estatisticas_jogadore/{id}-> statsController StatsController  
-statsController StatsController -deletePlayerStats(id)-> statsRepository StatsRepository  
-statsRepository StatsRepository -deletePlayerStats(id)-> database Database  
-database Database -.-> statsRepository StatsRepository  
-statsRepository StatsRepository -.-> statsController StatsController  
-statsController StatsController -SEND(status)-> user User  
+@startuml
+actor User
+participant StatsController
+participant UserController
+participant StatsRepository
+participant Database
+
+User -> StatsController: DELETE /estatisticas_jogadore/{id} (id, Token)
+activate StatsController
+
+StatsController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> StatsController: Token válido
+    deactivate UserController
+
+    StatsController -> StatsRepository: deletePlayerStats(id)
+    activate StatsRepository
+
+    StatsRepository -> Database: deletePlayerStats(id)
+    activate Database
+
+    Database --> StatsRepository: Confirmação
+    deactivate Database
+
+    StatsRepository --> StatsController: Confirmação
+    deactivate StatsRepository
+
+    StatsController --> User: Resposta sucesso (status)
+    deactivate StatsController
+else Token inválido
+    UserController --> StatsController: Token inválido
+    deactivate UserController
+
+    StatsController --> User: Resposta erro (401 Unauthorized)
+    deactivate StatsController
+end
+@enduml

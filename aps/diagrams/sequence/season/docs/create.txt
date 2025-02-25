@@ -1,6 +1,39 @@
-user User -POST(id,year,Token) /temporada-> seasonController SeasonController
-seasonController SeasonController -addSeason(id,year)-> seasonRepository SeasonRepositorty
-seasonRepository SeasonRepositorty -addSeason(id,year)-> database Database
-database Database -.-> seasonRepository SeasonRepositorty
-seasonRepository SeasonRepositorty -.-> seasonController SeasonController
-seasonController SeasonController -SEND(status, Season)-> user User
+@startuml
+actor User
+participant SeasonController
+participant UserController
+participant SeasonRepository
+participant Database
+
+User -> SeasonController: POST /temporada (id, year, Token)
+activate SeasonController
+
+SeasonController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> SeasonController: Token válido
+    deactivate UserController
+
+    SeasonController -> SeasonRepository: addSeason(id, year)
+    activate SeasonRepository
+
+    SeasonRepository -> Database: addSeason(id, year)
+    activate Database
+
+    Database --> SeasonRepository: Confirmação
+    deactivate Database
+
+    SeasonRepository --> SeasonController: Confirmação
+    deactivate SeasonRepository
+
+    SeasonController --> User: Resposta sucesso (status, Season)
+    deactivate SeasonController
+else Token inválido
+    UserController --> SeasonController: Token inválido
+    deactivate UserController
+
+    SeasonController --> User: Resposta erro (401 Unauthorized)
+    deactivate SeasonController
+end
+@enduml

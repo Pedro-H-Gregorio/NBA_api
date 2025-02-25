@@ -1,6 +1,39 @@
-user User -POST(id, points, assists, rebounds, steals, blocks, three_pointers, two_pointers, free_throws, Token) /estatisticas_jogador-> statsController StatsController  
-statsController StatsController -addPlayerStats(id, points, assists, rebounds, steals, blocks, three_pointers, two_pointers, free_throws)-> statsRepository StatsRepository  
-statsRepository StatsRepository -addPlayerStats(id, points, assists, rebounds, steals, blocks, three_pointers, two_pointers, free_throws)-> database Database  
-database Database -.-> statsRepository StatsRepository  
-statsRepository StatsRepository -.-> statsController StatsController  
-statsController StatsController -SEND(status, PlayerStats)-> user User 
+@startuml
+actor User
+participant StatsController
+participant UserController
+participant StatsRepository
+participant Database
+
+User -> StatsController: POST /estatisticas_jogador (id, points, assists, rebounds, steals, blocks, three_pointers, two_pointers, free_throws, Token)
+activate StatsController
+
+StatsController -> UserController: validateToken(Token)
+activate UserController
+
+alt Token válido
+    UserController --> StatsController: Token válido
+    deactivate UserController
+
+    StatsController -> StatsRepository: addPlayerStats(id, points, assists, rebounds, steals, blocks, three_pointers, two_pointers, free_throws)
+    activate StatsRepository
+
+    StatsRepository -> Database: addPlayerStats(id, points, assists, rebounds, steals, blocks, three_pointers, two_pointers, free_throws)
+    activate Database
+
+    Database --> StatsRepository: Confirmação
+    deactivate Database
+
+    StatsRepository --> StatsController: Confirmação
+    deactivate StatsRepository
+
+    StatsController --> User: Resposta sucesso (status, PlayerStats)
+    deactivate StatsController
+else Token inválido
+    UserController --> StatsController: Token inválido
+    deactivate UserController
+
+    StatsController --> User: Resposta erro (401 Unauthorized)
+    deactivate StatsController
+end
+@enduml
