@@ -1,0 +1,46 @@
+@startuml
+left to right direction
+(CRUD de Temporadas) as seasons
+(CRUD de Jogadores) as players
+(CRUD de Estatísticas dos Jogadores) as players_est
+(CRUD de Jogos) as games
+(CRUD de Times) as times
+(CRUD de Estatísticas dos Times) as times_est
+
+(Visualização de Logs) as logs
+
+(Criação e Atualização de Temporadas) as seasons_cu
+(Criação e Atualização de Jogadores) as players_cu
+(Criação e Atualização de Estatísticas dos Jogadores) as players_est_cu
+(Criação e Atualização de Jogos) as games_cu
+(Criação e Atualização de Times) as times_cu
+(Criação e Atualização de Estatísticas dos Times) as times_est_cu
+
+User --> seasons
+User --> players
+User --> players_est
+User --> games
+User --> times
+User --> times_est
+
+seasons_cu <-- ETL
+players_cu <-- ETL
+players_est_cu <-- ETL
+games_cu <-- ETL
+times_cu <-- ETL
+times_est_cu <-- ETL
+
+seasons ..> logs : <<Include>>
+players ..> logs : <<Include>>
+players_est ..> logs : <<Include>>
+games ..> logs : <<Include>>
+times ..> logs : <<Include>>
+times_est ..> logs : <<Include>>
+
+logs <.. seasons_cu : <<Include>>
+logs <.. players_cu : <<Include>>
+logs <.. players_est_cu : <<Include>>
+logs <.. games_cu : <<Include>>
+logs <.. times_cu : <<Include>>
+logs <.. times_est_cu : <<Include>>
+@enduml
