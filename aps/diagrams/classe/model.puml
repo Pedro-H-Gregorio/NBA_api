@@ -1,0 +1,188 @@
+@startuml
+class Player {
+    - id: UUID
+    - birthDate: LocalDate
+    - nickname: String
+    - shirtNumber: Integer
+    - weight: Double
+    - height: Integer
+    - name: String
+    - position: String
+    
+    + Player(): Player
+    + getters(): Type
+    + setters(Type): void
+    + toString(): String
+    + hashCode(): int
+    + equals(Object): boolean
+}
+
+class Team {
+    - id: UUID
+    - state: String
+    - fullName: String
+    - abbreviation: String
+    - yearFounded: Date
+    - city: String
+    
+    + Team(): Team
+    + getters(): Type
+    + setters(Type): void
+    + toString(): String
+    + hashCode(): int
+    + equals(Object): boolean
+}
+
+class Game {
+    - id: UUID
+    - matchup: String
+    
+    + Game(): Game
+    + getters(): Type
+    + setters(Type): void
+    + toString(): String
+    + hashCode(): int
+    + equals(Object): boolean
+}
+
+class Season {
+    - id: UUID
+    - year: Date
+    
+    + Season(): Season
+    + getters(): Type
+    + setters(Type): void
+    + toString(): String
+    + hashCode(): int
+    + equals(Object): boolean
+}
+
+class PlayerStatistics {
+    - id: UUID
+    - steals: Integer
+    - blocks: Integer
+    - points: Integer
+    - assistances: Integer
+    - threePointShots: Integer
+    - rebounds: Integer
+    - perimeterBackets: Integer
+    - freeThrows: Integer
+    
+    + PlayerStatistics(): PlayerStatistics
+    + getters(): Type
+    + setters(Type): void
+    + toString(): String
+    + hashCode(): int
+    + equals(Object): boolean
+}
+
+class TeamStatistics {
+    - id: UUID
+    - steals: Integer
+    - wl: String
+    - blocks: Integer
+    - points: Integer
+    - threePointShots: Integer
+    - rebounds: Integer
+    - perimeterBackets: Integer
+    - freeThrows: Integer
+    
+    + TeamStatistics(): TeamStatistics
+    + getters(): Type
+    + setters(Type): void
+    + toString(): String
+    + hashCode(): int
+    + equals(Object): boolean
+}
+
+interface Repository {
+    + getAll(): List<Type>
+    + save(Type): void
+    + update(Type, Type): void
+    + delete(Type): void
+    + getById(Type): Type
+}
+
+abstract RepositoryImpl {
+    + getAll(): List<Type>
+    + save(Type): void
+    + update(Type, Type): void
+    + delete(Type): void
+    + getById(Type): Type
+}
+
+class PlayerRepository {
+    + getAll(): List<Player>
+    + save(Player): void
+    + update(UUID, Player): void
+    + delete(UUID): void
+    + getById(UUID): Player
+}
+
+class TeamRepository {
+    + getAll(): List<Team>
+    + save(Team): void
+    + update(UUID, Team): void
+    + delete(UUID): void
+    + getById(UUID): Team
+}
+
+class GameRepository {
+    + getAll(): List<Game>
+    + save(Game): void
+    + update(UUID, Game): void
+    + delete(UUID): void
+    + getById(UUID): Game
+}
+
+class SeasonRepository {
+    + getAll(): List<Season>
+    + save(Season): void
+    + update(UUID, Season): void
+    + delete(UUID): void
+    + getById(UUID): Season
+}
+
+class PlayerStatisticsRepository {
+    + getAll(): List<PlayerStatistics>
+    + save(PlayerStatistics): void
+    + update(UUID, PlayerStatistics): void
+    + delete(UUID): void
+    + getById(UUID): PlayerStatistics
+}
+
+class TeamStatisticsRepository {
+    + getAll(): List<TeamStatistics>
+    + save(TeamStatistics): void
+    + update(UUID, TeamStatistics): void
+    + delete(UUID): void
+    + getById(UUID): TeamStatistics
+}
+
+
+Repository <|.. RepositoryImpl
+RepositoryImpl <|-- PlayerRepository
+RepositoryImpl <|-- TeamRepository
+RepositoryImpl <|-- GameRepository
+RepositoryImpl <|-- SeasonRepository
+RepositoryImpl <|-- PlayerStatisticsRepository
+RepositoryImpl <|-- TeamStatisticsRepository
+
+PlayerRepository ..> Player
+TeamRepository ..> Team
+GameRepository ..> Game
+SeasonRepository ..> Season
+PlayerStatisticsRepository ..> PlayerStatistics
+TeamStatisticsRepository ..> TeamStatistics
+
+Team *-- TeamStatistics
+Team *-- Game
+Player o-- Team
+Player *-- PlayerStatistics
+PlayerStatistics *-- Game
+TeamStatistics *-- Game
+Game *-- Team : home
+Game *-- Team : away
+Game *-- Season
+
+@enduml

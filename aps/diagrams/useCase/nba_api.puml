@@ -16,19 +16,19 @@ left to right direction
 (Criação e Atualização de Times) as times_cu
 (Criação e Atualização de Estatísticas dos Times) as times_est_cu
 
-User --> seasons
-User --> players
-User --> players_est
-User --> games
-User --> times
-User --> times_est
+User -- seasons
+User -- players
+User -- players_est
+User -- games
+User -- times
+User -- times_est
 
-seasons_cu <-- ETL
-players_cu <-- ETL
-players_est_cu <-- ETL
-games_cu <-- ETL
-times_cu <-- ETL
-times_est_cu <-- ETL
+seasons_cu -- ETL
+players_cu -- ETL
+players_est_cu -- ETL
+games_cu -- ETL
+times_cu -- ETL
+times_est_cu -- ETL
 
 seasons ..> logs : <<Include>>
 players ..> logs : <<Include>>
