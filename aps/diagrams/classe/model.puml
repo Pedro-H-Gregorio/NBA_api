@@ -8,7 +8,7 @@ class Player {
     - height: Integer
     - name: String
     - position: String
-    - age: NUMERIC
+    - age: Integer
 
     + Player(): Player
     + getters(): Type
