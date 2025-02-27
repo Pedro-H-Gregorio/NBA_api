@@ -1,14 +1,15 @@
 @startuml
 class Player {
-    - id: UUID
-    - birthDate: LocalDate
+    - id: INTEGER
+    - birthDate: VARCHAR(50)
     - nickname: String
-    - shirtNumber: Integer
-    - weight: Double
-    - height: Integer
+    - shirtNumber: String
+    - weight: String
+    - height: String
     - name: String
-    - position: String
-    
+    - position: String "(VARCHAR(1) no banco)"
+    - age: NUMERIC
+
     + Player(): Player
     + getters(): Type
     + setters(Type): void
@@ -18,13 +19,13 @@ class Player {
 }
 
 class Team {
-    - id: UUID
+    - id: INTEGER
     - state: String
     - fullName: String
     - abbreviation: String
-    - yearFounded: Date
+    - yearFounded: Integer
     - city: String
-    
+
     + Team(): Team
     + getters(): Type
     + setters(Type): void
@@ -34,9 +35,9 @@ class Team {
 }
 
 class Game {
-    - id: UUID
+    - id: VARCHAR
     - matchup: String
-    
+
     + Game(): Game
     + getters(): Type
     + setters(Type): void
@@ -46,9 +47,9 @@ class Game {
 }
 
 class Season {
-    - id: UUID
-    - year: Date
-    
+    - id: VARCHAR
+    - year: Integer
+
     + Season(): Season
     + getters(): Type
     + setters(Type): void
@@ -58,16 +59,16 @@ class Season {
 }
 
 class PlayerStatistics {
-    - id: UUID
+    - id: VARCHAR
     - steals: Integer
     - blocks: Integer
     - points: Integer
     - assistances: Integer
     - threePointShots: Integer
     - rebounds: Integer
-    - perimeterBackets: Integer
+    - perimeterBaskets: Integer
     - freeThrows: Integer
-    
+
     + PlayerStatistics(): PlayerStatistics
     + getters(): Type
     + setters(Type): void
@@ -77,16 +78,16 @@ class PlayerStatistics {
 }
 
 class TeamStatistics {
-    - id: UUID
+    - id: VARCHAR
     - steals: Integer
     - wl: String
     - blocks: Integer
     - points: Integer
     - threePointShots: Integer
     - rebounds: Integer
-    - perimeterBackets: Integer
+    - perimeterBaskets: Integer
     - freeThrows: Integer
-    
+
     + TeamStatistics(): TeamStatistics
     + getters(): Type
     + setters(Type): void
@@ -159,7 +160,6 @@ class TeamStatisticsRepository {
     + getById(UUID): TeamStatistics
 }
 
-
 Repository <|.. RepositoryImpl
 RepositoryImpl <|-- PlayerRepository
 RepositoryImpl <|-- TeamRepository
@@ -175,14 +175,14 @@ SeasonRepository ..> Season
 PlayerStatisticsRepository ..> PlayerStatistics
 TeamStatisticsRepository ..> TeamStatistics
 
-Team *-- TeamStatistics
-Team *-- Game
-Player o-- Team
-Player *-- PlayerStatistics
-PlayerStatistics *-- Game
-TeamStatistics *-- Game
+Player o-- Team : pertence_a
+Team *-- TeamStatistics : tem
+Team *-- Game : joga
+Player *-- PlayerStatistics : tem
+PlayerStatistics *-- Game : ocorre_em
+TeamStatistics *-- Game : ocorre_em
 Game *-- Team : home
 Game *-- Team : away
-Game *-- Season
-
+Game *-- Team : winner
+Game *-- Season : faz_parte_de
 @enduml
