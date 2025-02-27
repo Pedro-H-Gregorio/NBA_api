@@ -1,13 +1,13 @@
 @startuml
 class Player {
-    - id: INTEGER
-    - birthDate: VARCHAR(50)
+    - id: String
+    - birthDate: Date
     - nickname: String
-    - shirtNumber: String
-    - weight: String
-    - height: String
+    - shirtNumber: Integer
+    - weight: Double
+    - height: Integer
     - name: String
-    - position: String "(VARCHAR(1) no banco)"
+    - position: String
     - age: NUMERIC
 
     + Player(): Player
@@ -19,11 +19,11 @@ class Player {
 }
 
 class Team {
-    - id: INTEGER
+    - id: String
     - state: String
     - fullName: String
     - abbreviation: String
-    - yearFounded: Integer
+    - yearFounded: Date
     - city: String
 
     + Team(): Team
@@ -35,7 +35,7 @@ class Team {
 }
 
 class Game {
-    - id: VARCHAR
+    - id: String
     - matchup: String
 
     + Game(): Game
@@ -47,8 +47,8 @@ class Game {
 }
 
 class Season {
-    - id: VARCHAR
-    - year: Integer
+    - id: String
+    - year: Date
 
     + Season(): Season
     + getters(): Type
@@ -59,7 +59,7 @@ class Season {
 }
 
 class PlayerStatistics {
-    - id: VARCHAR
+    - id: String
     - steals: Integer
     - blocks: Integer
     - points: Integer
@@ -78,7 +78,7 @@ class PlayerStatistics {
 }
 
 class TeamStatistics {
-    - id: VARCHAR
+    - id: String
     - steals: Integer
     - wl: String
     - blocks: Integer
@@ -115,49 +115,49 @@ abstract RepositoryImpl {
 class PlayerRepository {
     + getAll(): List<Player>
     + save(Player): void
-    + update(UUID, Player): void
-    + delete(UUID): void
-    + getById(UUID): Player
+    + update(String, Player): void
+    + delete(String): void
+    + getById(String): Player
 }
 
 class TeamRepository {
     + getAll(): List<Team>
     + save(Team): void
-    + update(UUID, Team): void
-    + delete(UUID): void
-    + getById(UUID): Team
+    + update(String, Team): void
+    + delete(String): void
+    + getById(String): Team
 }
 
 class GameRepository {
     + getAll(): List<Game>
     + save(Game): void
-    + update(UUID, Game): void
-    + delete(UUID): void
-    + getById(UUID): Game
+    + update(String, Game): void
+    + delete(String): void
+    + getById(String): Game
 }
 
 class SeasonRepository {
     + getAll(): List<Season>
     + save(Season): void
-    + update(UUID, Season): void
-    + delete(UUID): void
-    + getById(UUID): Season
+    + update(String, Season): void
+    + delete(String): void
+    + getById(String): Season
 }
 
 class PlayerStatisticsRepository {
     + getAll(): List<PlayerStatistics>
     + save(PlayerStatistics): void
-    + update(UUID, PlayerStatistics): void
-    + delete(UUID): void
-    + getById(UUID): PlayerStatistics
+    + update(String, PlayerStatistics): void
+    + delete(String): void
+    + getById(String): PlayerStatistics
 }
 
 class TeamStatisticsRepository {
     + getAll(): List<TeamStatistics>
     + save(TeamStatistics): void
-    + update(UUID, TeamStatistics): void
-    + delete(UUID): void
-    + getById(UUID): TeamStatistics
+    + update(String, TeamStatistics): void
+    + delete(String): void
+    + getById(String): TeamStatistics
 }
 
 Repository <|.. RepositoryImpl
