@@ -15,6 +15,7 @@ interface ControllerBase<E, T> << interface >> {
   + delete(T): ResponseEntity<Object>
 }
 class ControllerBaseImpl<E, T> {
+  # repository: RepositoryBase<E, T>
   + create(E): ResponseEntity<E>
   + findById(T): ResponseEntity<E>
   + delete(T): ResponseEntity<Object>
@@ -28,25 +29,33 @@ class Game {
   - matchup: String
   - awayTeam: Team
   - winnerTeam: Team
+  + getId(): String
+  + setSeason(Season): void
   + builder(): GameBuilder
+  + getMatchup(): String
+  + getSeason(): Season
   + hashCode(): int
+  + setAwayTeam(Team): void
+  + getHomeTeam(): Team
   + toString(): String
+  + getAwayTeam(): Team
+  + getWinnerTeam(): Team
+  + setId(String): void
+  + setMatchup(String): void
   + equals(Object): boolean
+  + setHomeTeam(Team): void
+  + setWinnerTeam(Team): void
   # canEqual(Object): boolean
-   season: Season
-   matchup: String
-   awayTeam: Team
-   winnerTeam: Team
-   id: String
-   homeTeam: Team
 }
 interface GameController << interface >>
 class GameControllerImpl
 interface GameRepository << interface >>
 class GameRepositoryImpl {
-   entityName: String
+  # getEntityName(): String
 }
 class JwtTokenService {
+  - issuer: String
+  - secret: String
   + getSubjectFromToken(String): String
   - creationDate(): Instant
   + generateToken(User): String
@@ -64,46 +73,59 @@ class Player {
   - age: Integer
   - nickName: String
   - position: String
+  + setShirtNumber(String): void
+  + setWeight(String): void
+  + setAge(Integer): void
   + equals(Object): boolean
+  + getTeam(): Team
+  + getId(): Integer
+  + setName(String): void
+  + setHeight(String): void
+  + setBirthDate(String): void
   + hashCode(): int
   # canEqual(Object): boolean
+  + getName(): String
+  + setPosition(String): void
+  + getNickName(): String
+  + getShirtNumber(): String
   + toString(): String
   + builder(): PlayerBuilder
-   name: String
-   position: String
-   birthDate: String
-   age: Integer
-   nickName: String
-   weight: String
-   team: Team
-   height: String
-   id: Integer
-   shirtNumber: String
+  + getAge(): Integer
+  + setNickName(String): void
+  + getPosition(): String
+  + getHeight(): String
+  + setId(Integer): void
+  + setTeam(Team): void
+  + getWeight(): String
+  + getBirthDate(): String
 }
 interface PlayerController << interface >>
 class PlayerControllerImpl
 interface PlayerRepository << interface >>
 class PlayerRepositoryImpl {
-   entityName: String
+  # getEntityName(): String
 }
 class PlayerSeason {
   - season: Season
   - id: String
   - player: Player
+  + setSeason(Season): void
+  + getId(): String
+  + getSeason(): Season
   + toString(): String
   + builder(): PlayerSeasonBuilder
+  + getPlayer(): Player
+  + setId(String): void
+  + setPlayer(Player): void
   + equals(Object): boolean
   # canEqual(Object): boolean
   + hashCode(): int
-   player: Player
-   id: String
-   season: Season
 }
 interface PlayerSeasonController << interface >>
 class PlayerSeasonControllerImpl
 interface PlayerSeasonRepository << interface >>
 class PlayerSeasonRepositoryImpl {
-   entityName: String
+  # getEntityName(): String
 }
 class PlayerStatistics {
   - perimeterBaskets: Integer
@@ -117,74 +139,92 @@ class PlayerStatistics {
   - freeThrows: Integer
   - assistances: Integer
   - threePointShots: Integer
+  + setPlayer(Player): void
   + hashCode(): int
+  + getId(): String
+  + getPoints(): Integer
+  + setPerimeterBaskets(Integer): void
   + builder(): PlayerStatisticsBuilder
+  + getRebounds(): Integer
+  + setGame(Game): void
   # canEqual(Object): boolean
+  + getBlocks(): Integer
   + equals(Object): boolean
   + toString(): String
-   freeThrows: Integer
-   steals: Integer
-   assistances: Integer
-   points: Integer
-   player: Player
-   rebounds: Integer
-   perimeterBaskets: Integer
-   game: Game
-   id: String
-   threePointShots: Integer
-   blocks: Integer
+  + setBlocks(Integer): void
+  + getAssistances(): Integer
+  + getPlayer(): Player
+  + getGame(): Game
+  + setId(String): void
+  + setPoints(Integer): void
+  + setFreeThrows(Integer): void
+  + getSteals(): Integer
+  + getThreePointShots(): Integer
+  + getFreeThrows(): Integer
+  + setAssistances(Integer): void
+  + setThreePointShots(Integer): void
+  + getPerimeterBaskets(): Integer
+  + setRebounds(Integer): void
+  + setSteals(Integer): void
 }
 interface PlayerStatisticsController << interface >>
 class PlayerStatisticsControllerImpl
 interface PlayerStatisticsRepository << interface >>
 class PlayerStatisticsRepositoryImpl {
-   entityName: String
+  # getEntityName(): String
 }
 interface RepositoryBase<E, T> << interface >> {
   + save(E): E
+  + getAll(): List<E>
   + getByID(T): E
   + update(E): E
   + delete(T): void
-   all: List<E>
 }
 class RepositoryBaseImpl<E, T> {
+  - entityClass: Class<E>
+  # emf: EntityManager
   + delete(T): void
   + save(E): E
   + update(E): E
+  + getAll(): List<E>
   + getByID(T): E
-   all: List<E>
-   entityManager: EntityManager
-   entityName: String
+  # getEntityManager(): EntityManager
+  # getEntityName(): String
 }
 class Season {
   - id: String
   - year: String
+  + setId(String): void
+  + getId(): String
+  + getYear(): String
+  + setYear(String): void
   + equals(Object): boolean
   # canEqual(Object): boolean
   + hashCode(): int
   + toString(): String
   + builder(): SeasonBuilder
-   id: String
-   year: String
 }
 interface SeasonController << interface >>
 class SeasonControllerImpl
 interface SeasonRepository << interface >>
 class SeasonRepositoryImpl {
-   entityName: String
+  # getEntityName(): String
 }
 class SeasonTeam {
   - team: Team
   - id: String
   - season: Season
+  + getId(): String
+  + getSeason(): Season
+  + getTeam(): Team
+  + setId(String): void
+  + setSeason(Season): void
+  + setTeam(Team): void
   + builder(): SeasonTeamBuilder
   + equals(Object): boolean
   # canEqual(Object): boolean
   + hashCode(): int
   + toString(): String
-   id: String
-   team: Team
-   season: Season
 }
 interface SeasonTeamController << interface >>
 class SeasonTeamControllerImpl {
@@ -195,9 +235,11 @@ interface SeasonTeamRepository << interface >> {
 }
 class SeasonTeamRepositoryImpl {
   + getAllTeamsBySeason(String): List<SeasonTeam>
-   entityName: String
+  # getEntityName(): String
 }
 class SecurityConfiguration {
+  - filter: UserAuthenticationFilter
+  + ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED: String[]
   + passwordEncoder(): PasswordEncoder
   ~ authenticationManager(AuthenticationConfiguration): AuthenticationManager
   + securityFilterChain(HttpSecurity): SecurityFilterChain
@@ -210,24 +252,31 @@ class Team {
   - city: String
   - yearFounded: Integer
   - state: String
+  + getId(): Integer
+  + getCity(): String
+  + getNickname(): String
+  + getAbbreviation(): String
+  + getFullName(): String
+  + setState(String): void
+  + getYearFounded(): Integer
+  + setCity(String): void
   # canEqual(Object): boolean
+  + getState(): String
+  + setYearFounded(Integer): void
   + toString(): String
   + builder(): TeamBuilder
   + equals(Object): boolean
+  + setAbbreviation(String): void
+  + setId(Integer): void
+  + setFullName(String): void
   + hashCode(): int
-   abbreviation: String
-   city: String
-   state: String
-   fullName: String
-   nickname: String
-   id: Integer
-   yearFounded: Integer
+  + setNickname(String): void
 }
 interface TeamController << interface >>
 class TeamControllerImpl
 interface TeamRepository << interface >>
 class TeamRepositoryImpl {
-   entityName: String
+  # getEntityName(): String
 }
 class TeamStatistics {
   - game: Game
@@ -242,29 +291,41 @@ class TeamStatistics {
   - steals: Integer
   - rebounds: Integer
   - blocks: Integer
+  + getWl(): String
+  + getPoints(): Integer
+  + setRebounds(Integer): void
+  + getPerimeterBaskets(): Integer
+  + setThreePointShots(Integer): void
+  + getGame(): Game
+  + getId(): String
+  + setAssistances(Integer): void
+  + getRebounds(): Integer
+  + getBlocks(): Integer
+  + setId(String): void
+  + setWl(String): void
+  + setPerimeterBaskets(Integer): void
+  + getAssistances(): Integer
   + hashCode(): int
   + builder(): TeamStatisticsBuilder
+  + setSteals(Integer): void
+  + setFreeThrows(Integer): void
   # canEqual(Object): boolean
+  + setPoints(Integer): void
+  + setBlocks(Integer): void
+  + getSteals(): Integer
+  + getFreeThrows(): Integer
+  + getTeam(): Team
+  + setTeam(Team): void
+  + setGame(Game): void
+  + getThreePointShots(): Integer
   + toString(): String
   + equals(Object): boolean
-   wl: String
-   freeThrows: Integer
-   steals: Integer
-   assistances: Integer
-   points: Integer
-   rebounds: Integer
-   perimeterBaskets: Integer
-   team: Team
-   game: Game
-   id: String
-   threePointShots: Integer
-   blocks: Integer
 }
 interface TeamStatisticsController << interface >>
 class TeamStatisticsControllerImpl
 interface TeamStatisticsRepository << interface >>
 class TeamStatisticsRepositoryImpl {
-   entityName: String
+  # getEntityName(): String
 }
 interface TokenService << interface >> {
   + getSubjectFromToken(String): String
@@ -274,35 +335,44 @@ class User {
   - id: String
   - password: String
   - username: String
-   password: String
-   id: String
-   username: String
+  + getId(): String
+  + getUsername(): String
+  + getPassword(): String
+  + setId(String): void
+  + setUsername(String): void
+  + setPassword(String): void
 }
 class UserAuthenticationFilter {
+  - service: TokenService
+  - repository: UserRepository
   - checkIfEndpointIsNotPublic(HttpServletRequest): boolean
   # doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain): void
   - recoveryToken(HttpServletRequest): String?
 }
 class UserControllerImpl {
+  - service: UserService
   + register(UserDTO): ResponseEntity<Void>
   + login(UserDTO): ResponseEntity<String>
 }
 entity UserDTO << record >> {
+  - password: String
+  - username: String
   + username(): String
   + password(): String
 }
 class UserDetailsImpl {
   - user: User
-   password: String
-   enabled: boolean
-   accountNonLocked: boolean
-   authorities: Collection<GrantedAuthority>
-   credentialsNonExpired: boolean
-   username: String
-   accountNonExpired: boolean
-   user: User
+  + isEnabled(): boolean
+  + getUser(): User
+  + getPassword(): String
+  + isAccountNonLocked(): boolean
+  + isCredentialsNonExpired(): boolean
+  + getUsername(): String
+  + getAuthorities(): Collection<GrantedAuthority>
+  + isAccountNonExpired(): boolean
 }
 class UserDetailsServiceImpl {
+  - repository: UserRepository
   + loadUserByUsername(String): UserDetails
 }
 interface UserRepository << interface >> {
@@ -313,6 +383,10 @@ interface UserService << interface >> {
   + register(UserDTO): void
 }
 class UserServiceImpl {
+  - manager: AuthenticationManager
+  - configuration: SecurityConfiguration
+  - service: TokenService
+  - repository: UserRepository
   + authenticate(UserDTO): String
   + register(UserDTO): void
 }
