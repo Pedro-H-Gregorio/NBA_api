@@ -1,19 +1,102 @@
 @startuml
-object season1 as "Season\nid: S1\nyear: 2025"
-object team1 as "Team\nid: T1\nnickname: 'Eagles'\nabbreviation: 'EGL'\nfullName: 'Eagles United'\ncity: 'New York'\nyearFounded: 1900\nstate: 'NY'"
-object team2 as "Team\nid: T2\nnickname: 'Tigers'\nabbreviation: 'TGR'\nfullName: 'Tigers FC'\ncity: 'Chicago'\nyearFounded: 1920\nstate: 'IL'"
 
-object game1 as "Game\nid: G1\nmatchup: 'Eagles vs Tigers'"
-object player1 as "Player\nid: P1\nname: 'Alice'\nposition: 'Forward'\nbirthDate: '1990-01-01'\nage: 35\nnickName: 'Ally'\nshirtNumber: 9\nweight: '70kg'\nheight: '170cm'"
+!theme plain
+skinparam linetype polyline
 
-object playerSeason1 as "PlayerSeason\nid: PS1"
-object playerStats1 as "PlayerStatistics\nid: PST1\npoints: 25\nfreeThrows: 5\nthreePointShots: 3\nblocks: 1\nrebounds: 7\nsteals: 2\nassistances: 4\nperimeterBaskets: 6"
-object seasonTeam1 as "SeasonTeam\nid: ST1"
-object teamStats1 as "TeamStatistics\nid: TSTAT1\nwl: 'W'\npoints: 100\nthreePointShots: 10\nfreeThrows: 20\nassistances: 15\nperimeterBaskets: 30\nsteals: 5\nrebounds: 50\nblocks: 3"
+object season1 as "season : Season" {
+    id = "2025"
+    year = "2024-25"
+}
 
-object user1 as "User\nid: U1\nusername: 'johndoe'\npassword: 'secret'"
-object userDTO as "UserDTO\nusername: 'johndoe'\npassword: 'secret'"
-object userDetails as "UserDetailsImpl\nusername: 'johndoe'\npassword: 'secret'\naccountNonExpired: true\naccountNonLocked: true\nenabled: true\ncredentialsNonExpired: true"
+object team1 as "team : Team" {
+    id = "T1"
+    nickname = "Eagles"
+    abbreviation = "EGL"
+    fullName = "Eagles United"
+    city = "New York"
+    yearFounded = "1900"
+    state = "NY"
+}
+
+object team2 as "team : Team" {
+    id = "T2"
+    nickname = "Tigers"
+    abbreviation = "TGR"
+    fullName = "Tigers FC"
+    city = "Chicago"
+    yearFounded = "1920"
+    state = "IL"
+}
+
+object game1 as "game : Game" {
+    id = "G1"
+    matchup = "Eagles vs Tigers"
+}
+
+object player1 as "player : Player" {
+    id = "P1"
+    name = "Alice"
+    position = "Forward"
+    birthDate = "1990-01-01"
+    age = "35"
+    nickName = "Ally"
+    shirtNumber = "9"
+    weight = "70kg"
+    height = "170cm"
+}
+
+object playerSeason1 as "playerSeason : PlayerSeason" {
+    id = "PS1"
+}
+
+object playerStats1 as "playerStatistics : PlayerStatistics" {
+    id = "PST1"
+    points = "25"
+    freeThrows = "5"
+    threePointShots = "3"
+    blocks = "1"
+    rebounds = "7"
+    steals = "2"
+    assistances = "4"
+    perimeterBaskets = "6"
+}
+
+object seasonTeam1 as "seasonTeam : SeasonTeam" {
+    id = "ST1"
+}
+
+object teamStats1 as "teamStatistics : TeamStatistics" {
+    id = "TSTAT1"
+    wl = "W"
+    points = "100"
+    threePointShots = "10"
+    freeThrows = "20"
+    assistances = "15"
+    perimeterBaskets = "30"
+    steals = "5"
+    rebounds = "50"
+    blocks = "3"
+}
+
+object user1 as "user : User" {
+    id = "U1"
+    username = "johndoe"
+    password = "secret"
+}
+
+object userDTO as "userDTO : UserDTO" {
+    username = "johndoe"
+    password = "secret"
+}
+
+object userDetails as "userDetails : UserDetailsImpl" {
+    username = "johndoe"
+    password = "secret"
+    accountNonExpired = "true"
+    accountNonLocked = "true"
+    enabled = "true"
+    credentialsNonExpired = "true"
+}
 
 object jwtTokenService as "JwtTokenService"
 object persistException as "PersistenciaDawException"
