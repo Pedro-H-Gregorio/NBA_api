@@ -175,14 +175,15 @@ SeasonRepository ..> Season
 PlayerStatisticsRepository ..> PlayerStatistics
 TeamStatisticsRepository ..> TeamStatistics
 
-Player o-- Team : pertence_a
-Team *-- TeamStatistics : tem
-Team *-- Game : joga
-Player *-- PlayerStatistics : tem
-PlayerStatistics *-- Game : ocorre_em
-TeamStatistics *-- Game : ocorre_em
-Game *-- Team : home
-Game *-- Team : away
-Game *-- Team : winner
-Game *-- Season : faz_parte_de
+Player "N" o-- "N" Season : Jogou_em
+Team "N" o-- "N" Season : Participou_de
+Player "N" --* Team : Pertence_a
+Game "1" *-- "1" Season : Ocorreu_em
+Game "1" -- "1" Team : Time_Mandante
+Game "1" -- "1" Team : Time_Visitante
+Game "1" -- "1" Team : Vencedor
+PlayerStatistics "N" *-- "1" Game : Estatísticas_do_Jogador
+PlayerStatistics "1" *-- "1" Player : Estatísticas_de
+TeamStatistics "N" *-- "1" Game : Estatísticas_do_Time
+TeamStatistics "1" *-- "1" Team : Estatísticas_de
 @enduml
