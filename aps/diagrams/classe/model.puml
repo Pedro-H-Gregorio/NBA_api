@@ -179,8 +179,8 @@ Player "N" o-- "N" Season : Jogou_em
 Team "N" o-- "N" Season : Participou_de
 Player "N" --* Team : Pertence_a
 Game "1" *-- "1" Season : Ocorreu_em
-Game "1" -- "1" Team : Time_Mandante
-Game "1" -- "1" Team : Time_Visitante
+Game "1" *-- "1" Team : Time_Mandante
+Game "1" *-- "1" Team : Time_Visitante
 Game "1" -- "1" Team : Vencedor
 PlayerStatistics "N" *-- "1" Game : Estatísticas_do_Jogador
 PlayerStatistics "1" *-- "1" Player : Estatísticas_de
