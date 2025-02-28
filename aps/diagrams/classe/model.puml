@@ -1,4 +1,6 @@
 @startuml
+skinparam linetype ortho
+
 class Player {
     - id: String
     - birthDate: Date
@@ -95,85 +97,6 @@ class TeamStatistics {
     + hashCode(): int
     + equals(Object): boolean
 }
-
-interface Repository {
-    + getAll(): List<Type>
-    + save(Type): void
-    + update(Type, Type): void
-    + delete(Type): void
-    + getById(Type): Type
-}
-
-abstract RepositoryImpl {
-    + getAll(): List<Type>
-    + save(Type): void
-    + update(Type, Type): void
-    + delete(Type): void
-    + getById(Type): Type
-}
-
-class PlayerRepository {
-    + getAll(): List<Player>
-    + save(Player): void
-    + update(String, Player): void
-    + delete(String): void
-    + getById(String): Player
-}
-
-class TeamRepository {
-    + getAll(): List<Team>
-    + save(Team): void
-    + update(String, Team): void
-    + delete(String): void
-    + getById(String): Team
-}
-
-class GameRepository {
-    + getAll(): List<Game>
-    + save(Game): void
-    + update(String, Game): void
-    + delete(String): void
-    + getById(String): Game
-}
-
-class SeasonRepository {
-    + getAll(): List<Season>
-    + save(Season): void
-    + update(String, Season): void
-    + delete(String): void
-    + getById(String): Season
-}
-
-class PlayerStatisticsRepository {
-    + getAll(): List<PlayerStatistics>
-    + save(PlayerStatistics): void
-    + update(String, PlayerStatistics): void
-    + delete(String): void
-    + getById(String): PlayerStatistics
-}
-
-class TeamStatisticsRepository {
-    + getAll(): List<TeamStatistics>
-    + save(TeamStatistics): void
-    + update(String, TeamStatistics): void
-    + delete(String): void
-    + getById(String): TeamStatistics
-}
-
-Repository <|.. RepositoryImpl
-RepositoryImpl <|-- PlayerRepository
-RepositoryImpl <|-- TeamRepository
-RepositoryImpl <|-- GameRepository
-RepositoryImpl <|-- SeasonRepository
-RepositoryImpl <|-- PlayerStatisticsRepository
-RepositoryImpl <|-- TeamStatisticsRepository
-
-PlayerRepository ..> Player
-TeamRepository ..> Team
-GameRepository ..> Game
-SeasonRepository ..> Season
-PlayerStatisticsRepository ..> PlayerStatistics
-TeamStatisticsRepository ..> TeamStatistics
 
 Player "N" o-- "N" Season : Jogou_em
 Team "N" o-- "N" Season : Participou_de
