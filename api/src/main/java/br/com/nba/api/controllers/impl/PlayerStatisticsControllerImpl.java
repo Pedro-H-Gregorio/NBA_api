@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping({"/player_statistics"})
-public class PlayerStaticsControllerImpl extends ControllerBaseImpl<PlayerStatistics, String> implements PlayerStatisticsController {
+public class PlayerStatisticsControllerImpl extends ControllerBaseImpl<PlayerStatistics, String> implements PlayerStatisticsController {
 
     @Autowired
-    protected PlayerStaticsControllerImpl(PlayerStatisticsRepository repository) {
+    protected PlayerStatisticsControllerImpl(PlayerStatisticsRepository repository) {
         super(repository);
     }
 }

@@ -1,0 +1,397 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class ApiApplication {
+  + main(String[]): void
+}
+interface ControllerBase<E, T> << interface >> {
+  + findAll(): ResponseEntity<List<E>>
+  + create(E): ResponseEntity<E>
+  + update(T, E): ResponseEntity<E>
+  + findById(T): ResponseEntity<E>
+  + delete(T): ResponseEntity<Object>
+}
+class ControllerBaseImpl<E, T> {
+  + create(E): ResponseEntity<E>
+  + findById(T): ResponseEntity<E>
+  + delete(T): ResponseEntity<Object>
+  + findAll(): ResponseEntity<List<E>>
+  + update(T, E): ResponseEntity<E>
+}
+class Game {
+  - season: Season
+  - homeTeam: Team
+  - id: String
+  - matchup: String
+  - awayTeam: Team
+  - winnerTeam: Team
+  + builder(): GameBuilder
+  + hashCode(): int
+  + toString(): String
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+   season: Season
+   matchup: String
+   awayTeam: Team
+   winnerTeam: Team
+   id: String
+   homeTeam: Team
+}
+interface GameController << interface >>
+class GameControllerImpl
+interface GameRepository << interface >>
+class GameRepositoryImpl {
+   entityName: String
+}
+class JwtTokenService {
+  + getSubjectFromToken(String): String
+  - creationDate(): Instant
+  + generateToken(User): String
+  - expirationDate(): Instant
+}
+class PersistenciaDawException
+class Player {
+  - birthDate: String
+  - shirtNumber: String
+  - team: Team
+  - name: String
+  - weight: String
+  - id: Integer
+  - height: String
+  - age: Integer
+  - nickName: String
+  - position: String
+  + equals(Object): boolean
+  + hashCode(): int
+  # canEqual(Object): boolean
+  + toString(): String
+  + builder(): PlayerBuilder
+   name: String
+   position: String
+   birthDate: String
+   age: Integer
+   nickName: String
+   weight: String
+   team: Team
+   height: String
+   id: Integer
+   shirtNumber: String
+}
+interface PlayerController << interface >>
+class PlayerControllerImpl
+interface PlayerRepository << interface >>
+class PlayerRepositoryImpl {
+   entityName: String
+}
+class PlayerSeason {
+  - season: Season
+  - id: String
+  - player: Player
+  + toString(): String
+  + builder(): PlayerSeasonBuilder
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+  + hashCode(): int
+   player: Player
+   id: String
+   season: Season
+}
+interface PlayerSeasonController << interface >>
+class PlayerSeasonControllerImpl
+interface PlayerSeasonRepository << interface >>
+class PlayerSeasonRepositoryImpl {
+   entityName: String
+}
+class PlayerStatistics {
+  - perimeterBaskets: Integer
+  - points: Integer
+  - player: Player
+  - id: String
+  - game: Game
+  - blocks: Integer
+  - steals: Integer
+  - rebounds: Integer
+  - freeThrows: Integer
+  - assistances: Integer
+  - threePointShots: Integer
+  + hashCode(): int
+  + builder(): PlayerStatisticsBuilder
+  # canEqual(Object): boolean
+  + equals(Object): boolean
+  + toString(): String
+   freeThrows: Integer
+   steals: Integer
+   assistances: Integer
+   points: Integer
+   player: Player
+   rebounds: Integer
+   perimeterBaskets: Integer
+   game: Game
+   id: String
+   threePointShots: Integer
+   blocks: Integer
+}
+interface PlayerStatisticsController << interface >>
+class PlayerStatisticsControllerImpl
+interface PlayerStatisticsRepository << interface >>
+class PlayerStatisticsRepositoryImpl {
+   entityName: String
+}
+interface RepositoryBase<E, T> << interface >> {
+  + save(E): E
+  + getByID(T): E
+  + update(E): E
+  + delete(T): void
+   all: List<E>
+}
+class RepositoryBaseImpl<E, T> {
+  + delete(T): void
+  + save(E): E
+  + update(E): E
+  + getByID(T): E
+   all: List<E>
+   entityManager: EntityManager
+   entityName: String
+}
+class Season {
+  - id: String
+  - year: String
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+  + hashCode(): int
+  + toString(): String
+  + builder(): SeasonBuilder
+   id: String
+   year: String
+}
+interface SeasonController << interface >>
+class SeasonControllerImpl
+interface SeasonRepository << interface >>
+class SeasonRepositoryImpl {
+   entityName: String
+}
+class SeasonTeam {
+  - team: Team
+  - id: String
+  - season: Season
+  + builder(): SeasonTeamBuilder
+  + equals(Object): boolean
+  # canEqual(Object): boolean
+  + hashCode(): int
+  + toString(): String
+   id: String
+   team: Team
+   season: Season
+}
+interface SeasonTeamController << interface >>
+class SeasonTeamControllerImpl {
+  + findAll(String): ResponseEntity<List<SeasonTeam>>
+}
+interface SeasonTeamRepository << interface >> {
+  + getAllTeamsBySeason(String): List<SeasonTeam>
+}
+class SeasonTeamRepositoryImpl {
+  + getAllTeamsBySeason(String): List<SeasonTeam>
+   entityName: String
+}
+class SecurityConfiguration {
+  + passwordEncoder(): PasswordEncoder
+  ~ authenticationManager(AuthenticationConfiguration): AuthenticationManager
+  + securityFilterChain(HttpSecurity): SecurityFilterChain
+}
+class Team {
+  - nickname: String
+  - abbreviation: String
+  - fullName: String
+  - id: Integer
+  - city: String
+  - yearFounded: Integer
+  - state: String
+  # canEqual(Object): boolean
+  + toString(): String
+  + builder(): TeamBuilder
+  + equals(Object): boolean
+  + hashCode(): int
+   abbreviation: String
+   city: String
+   state: String
+   fullName: String
+   nickname: String
+   id: Integer
+   yearFounded: Integer
+}
+interface TeamController << interface >>
+class TeamControllerImpl
+interface TeamRepository << interface >>
+class TeamRepositoryImpl {
+   entityName: String
+}
+class TeamStatistics {
+  - game: Game
+  - wl: String
+  - team: Team
+  - id: String
+  - points: Integer
+  - threePointShots: Integer
+  - freeThrows: Integer
+  - assistances: Integer
+  - perimeterBaskets: Integer
+  - steals: Integer
+  - rebounds: Integer
+  - blocks: Integer
+  + hashCode(): int
+  + builder(): TeamStatisticsBuilder
+  # canEqual(Object): boolean
+  + toString(): String
+  + equals(Object): boolean
+   wl: String
+   freeThrows: Integer
+   steals: Integer
+   assistances: Integer
+   points: Integer
+   rebounds: Integer
+   perimeterBaskets: Integer
+   team: Team
+   game: Game
+   id: String
+   threePointShots: Integer
+   blocks: Integer
+}
+interface TeamStatisticsController << interface >>
+class TeamStatisticsControllerImpl
+interface TeamStatisticsRepository << interface >>
+class TeamStatisticsRepositoryImpl {
+   entityName: String
+}
+interface TokenService << interface >> {
+  + getSubjectFromToken(String): String
+  + generateToken(User): String
+}
+class User {
+  - id: String
+  - password: String
+  - username: String
+   password: String
+   id: String
+   username: String
+}
+class UserAuthenticationFilter {
+  - checkIfEndpointIsNotPublic(HttpServletRequest): boolean
+  # doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain): void
+  - recoveryToken(HttpServletRequest): String?
+}
+class UserControllerImpl {
+  + register(UserDTO): ResponseEntity<Void>
+  + login(UserDTO): ResponseEntity<String>
+}
+entity UserDTO << record >> {
+  + username(): String
+  + password(): String
+}
+class UserDetailsImpl {
+  - user: User
+   password: String
+   enabled: boolean
+   accountNonLocked: boolean
+   authorities: Collection<GrantedAuthority>
+   credentialsNonExpired: boolean
+   username: String
+   accountNonExpired: boolean
+   user: User
+}
+class UserDetailsServiceImpl {
+  + loadUserByUsername(String): UserDetails
+}
+interface UserRepository << interface >> {
+  + findByUsername(String): Optional<User>
+}
+interface UserService << interface >> {
+  + authenticate(UserDTO): String
+  + register(UserDTO): void
+}
+class UserServiceImpl {
+  + authenticate(UserDTO): String
+  + register(UserDTO): void
+}
+
+ControllerBaseImpl              -[#008200,dashed]-^  ControllerBase                 
+ControllerBaseImpl             "1" *-[#595959,plain]-> "repository\n1" RepositoryBase                 
+Game                           "1" *-[#595959,plain]-> "season\n1" Season                         
+Game                           "1" *-[#595959,plain]-> "homeTeam\n1" Team                           
+GameController                  -[#008200,plain]-^  ControllerBase                 
+GameControllerImpl              -[#000082,plain]-^  ControllerBaseImpl             
+GameControllerImpl              -[#008200,dashed]-^  GameController                 
+GameRepository                  -[#008200,plain]-^  RepositoryBase                 
+GameRepositoryImpl              -[#008200,dashed]-^  GameRepository                 
+GameRepositoryImpl              -[#000082,plain]-^  RepositoryBaseImpl             
+JwtTokenService                 -[#008200,dashed]-^  TokenService                   
+Player                         "1" *-[#595959,plain]-> "team\n1" Team                           
+PlayerController                -[#008200,plain]-^  ControllerBase                 
+PlayerControllerImpl            -[#000082,plain]-^  ControllerBaseImpl             
+PlayerControllerImpl            -[#008200,dashed]-^  PlayerController               
+PlayerRepository                -[#008200,plain]-^  RepositoryBase                 
+PlayerRepositoryImpl            -[#008200,dashed]-^  PlayerRepository               
+PlayerRepositoryImpl            -[#000082,plain]-^  RepositoryBaseImpl             
+PlayerSeason                   "1" *-[#595959,plain]-> "player\n1" Player                         
+PlayerSeason                   "1" *-[#595959,plain]-> "season\n1" Season                         
+PlayerSeasonController          -[#008200,plain]-^  ControllerBase                 
+PlayerSeasonControllerImpl      -[#000082,plain]-^  ControllerBaseImpl             
+PlayerSeasonControllerImpl      -[#008200,dashed]-^  PlayerSeasonController         
+PlayerSeasonRepository          -[#008200,plain]-^  RepositoryBase                 
+PlayerSeasonRepositoryImpl      -[#008200,dashed]-^  PlayerSeasonRepository         
+PlayerSeasonRepositoryImpl      -[#000082,plain]-^  RepositoryBaseImpl             
+PlayerStatistics               "1" *-[#595959,plain]-> "game\n1" Game                           
+PlayerStatistics               "1" *-[#595959,plain]-> "player\n1" Player                         
+PlayerStatisticsController      -[#008200,plain]-^  ControllerBase                 
+PlayerStatisticsControllerImpl  -[#000082,plain]-^  ControllerBaseImpl             
+PlayerStatisticsControllerImpl  -[#008200,dashed]-^  PlayerStatisticsController     
+PlayerStatisticsRepository      -[#008200,plain]-^  RepositoryBase                 
+PlayerStatisticsRepositoryImpl  -[#008200,dashed]-^  PlayerStatisticsRepository     
+PlayerStatisticsRepositoryImpl  -[#000082,plain]-^  RepositoryBaseImpl             
+RepositoryBaseImpl              -[#595959,dashed]->  PersistenciaDawException       : "«create»"
+RepositoryBaseImpl              -[#008200,dashed]-^  RepositoryBase                 
+SeasonController                -[#008200,plain]-^  ControllerBase                 
+SeasonControllerImpl            -[#000082,plain]-^  ControllerBaseImpl             
+SeasonControllerImpl            -[#008200,dashed]-^  SeasonController               
+SeasonRepository                -[#008200,plain]-^  RepositoryBase                 
+SeasonRepositoryImpl            -[#000082,plain]-^  RepositoryBaseImpl             
+SeasonRepositoryImpl            -[#008200,dashed]-^  SeasonRepository               
+SeasonTeam                     "1" *-[#595959,plain]-> "season\n1" Season                         
+SeasonTeam                     "1" *-[#595959,plain]-> "team\n1" Team                           
+SeasonTeamController            -[#008200,plain]-^  ControllerBase                 
+SeasonTeamControllerImpl        -[#000082,plain]-^  ControllerBaseImpl             
+SeasonTeamControllerImpl        -[#008200,dashed]-^  SeasonTeamController           
+SeasonTeamRepository            -[#008200,plain]-^  RepositoryBase                 
+SeasonTeamRepositoryImpl        -[#595959,dashed]->  PersistenciaDawException       : "«create»"
+SeasonTeamRepositoryImpl        -[#000082,plain]-^  RepositoryBaseImpl             
+SeasonTeamRepositoryImpl        -[#008200,dashed]-^  SeasonTeamRepository           
+SecurityConfiguration          "1" *-[#595959,plain]-> "filter\n1" UserAuthenticationFilter       
+TeamController                  -[#008200,plain]-^  ControllerBase                 
+TeamControllerImpl              -[#000082,plain]-^  ControllerBaseImpl             
+TeamControllerImpl              -[#008200,dashed]-^  TeamController                 
+TeamRepository                  -[#008200,plain]-^  RepositoryBase                 
+TeamRepositoryImpl              -[#000082,plain]-^  RepositoryBaseImpl             
+TeamRepositoryImpl              -[#008200,dashed]-^  TeamRepository                 
+TeamStatistics                 "1" *-[#595959,plain]-> "game\n1" Game                           
+TeamStatistics                 "1" *-[#595959,plain]-> "team\n1" Team                           
+TeamStatisticsController        -[#008200,plain]-^  ControllerBase                 
+TeamStatisticsControllerImpl    -[#000082,plain]-^  ControllerBaseImpl             
+TeamStatisticsControllerImpl    -[#008200,dashed]-^  TeamStatisticsController       
+TeamStatisticsRepository        -[#008200,plain]-^  RepositoryBase                 
+TeamStatisticsRepositoryImpl    -[#000082,plain]-^  RepositoryBaseImpl             
+TeamStatisticsRepositoryImpl    -[#008200,dashed]-^  TeamStatisticsRepository       
+UserAuthenticationFilter       "1" *-[#595959,plain]-> "service\n1" TokenService                   
+UserAuthenticationFilter        -[#595959,dashed]->  UserDetailsImpl                : "«create»"
+UserAuthenticationFilter       "1" *-[#595959,plain]-> "repository\n1" UserRepository                 
+UserControllerImpl             "1" *-[#595959,plain]-> "service\n1" UserService                    
+UserDetailsImpl                "1" *-[#595959,plain]-> "user\n1" User                           
+UserDetailsServiceImpl         "1" *-[#595959,plain]-> "repository\n1" UserRepository                 
+UserServiceImpl                "1" *-[#595959,plain]-> "configuration\n1" SecurityConfiguration          
+UserServiceImpl                "1" *-[#595959,plain]-> "service\n1" TokenService                   
+UserServiceImpl                 -[#595959,dashed]->  User                           : "«create»"
+UserServiceImpl                "1" *-[#595959,plain]-> "repository\n1" UserRepository                 
+UserServiceImpl                 -[#008200,dashed]-^  UserService                    
+@enduml

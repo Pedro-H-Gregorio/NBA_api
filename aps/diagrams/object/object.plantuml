@@ -1,0 +1,99 @@
+@startuml
+object season1 as "Season\nid: S1\nyear: 2025"
+object team1 as "Team\nid: T1\nnickname: 'Eagles'\nabbreviation: 'EGL'\nfullName: 'Eagles United'\ncity: 'New York'\nyearFounded: 1900\nstate: 'NY'"
+object team2 as "Team\nid: T2\nnickname: 'Tigers'\nabbreviation: 'TGR'\nfullName: 'Tigers FC'\ncity: 'Chicago'\nyearFounded: 1920\nstate: 'IL'"
+
+object game1 as "Game\nid: G1\nmatchup: 'Eagles vs Tigers'"
+object player1 as "Player\nid: P1\nname: 'Alice'\nposition: 'Forward'\nbirthDate: '1990-01-01'\nage: 35\nnickName: 'Ally'\nshirtNumber: 9\nweight: '70kg'\nheight: '170cm'"
+
+object playerSeason1 as "PlayerSeason\nid: PS1"
+object playerStats1 as "PlayerStatistics\nid: PST1\npoints: 25\nfreeThrows: 5\nthreePointShots: 3\nblocks: 1\nrebounds: 7\nsteals: 2\nassistances: 4\nperimeterBaskets: 6"
+object seasonTeam1 as "SeasonTeam\nid: ST1"
+object teamStats1 as "TeamStatistics\nid: TSTAT1\nwl: 'W'\npoints: 100\nthreePointShots: 10\nfreeThrows: 20\nassistances: 15\nperimeterBaskets: 30\nsteals: 5\nrebounds: 50\nblocks: 3"
+
+object user1 as "User\nid: U1\nusername: 'johndoe'\npassword: 'secret'"
+object userDTO as "UserDTO\nusername: 'johndoe'\npassword: 'secret'"
+object userDetails as "UserDetailsImpl\nusername: 'johndoe'\npassword: 'secret'\naccountNonExpired: true\naccountNonLocked: true\nenabled: true\ncredentialsNonExpired: true"
+
+object jwtTokenService as "JwtTokenService"
+object persistException as "PersistenciaDawException"
+object securityConfig as "SecurityConfiguration"
+
+object gameController as "GameControllerImpl"
+object playerController as "PlayerControllerImpl"
+object playerSeasonController as "PlayerSeasonControllerImpl"
+object playerStatsController as "PlayerStatisticsControllerImpl"
+object seasonController as "SeasonControllerImpl"
+object seasonTeamController as "SeasonTeamControllerImpl"
+object teamController as "TeamControllerImpl"
+object teamStatsController as "TeamStatisticsControllerImpl"
+object userController as "UserControllerImpl"
+
+object gameRepository as "GameRepositoryImpl\nentityName: 'GameEntity'"
+object playerRepository as "PlayerRepositoryImpl\nentityName: 'PlayerEntity'"
+object playerSeasonRepository as "PlayerSeasonRepositoryImpl\nentityName: 'PlayerSeasonEntity'"
+object playerStatsRepository as "PlayerStatisticsRepositoryImpl\nentityName: 'PlayerStatsEntity'"
+object seasonRepository as "SeasonRepositoryImpl\nentityName: 'SeasonEntity'"
+object seasonTeamRepository as "SeasonTeamRepositoryImpl\nentityName: 'SeasonTeamEntity'"
+object teamRepository as "TeamRepositoryImpl\nentityName: 'TeamEntity'"
+object teamStatsRepository as "TeamStatisticsRepositoryImpl\nentityName: 'TeamStatsEntity'"
+object userRepository as "UserRepository"
+
+object userService as "UserServiceImpl"
+object userDetailsService as "UserDetailsServiceImpl"
+object userAuthFilter as "UserAuthenticationFilter"
+
+game1 --> season1 : season
+game1 --> team1 : homeTeam
+game1 --> team2 : awayTeam
+game1 --> team1 : winnerTeam
+
+player1 --> team1 : team
+
+playerSeason1 --> player1 : player
+playerSeason1 --> season1 : season
+
+
+playerStats1 --> game1 : game
+playerStats1 --> player1 : player
+
+
+seasonTeam1 --> season1 : season
+seasonTeam1 --> team2 : team
+
+teamStats1 --> game1 : game
+teamStats1 --> team1 : team
+
+gameController --> gameRepository : repository
+playerController --> playerRepository : repository
+playerSeasonController --> playerSeasonRepository : repository
+playerStatsController --> playerStatsRepository : repository
+seasonController --> seasonRepository : repository
+seasonTeamController --> seasonTeamRepository : repository
+teamController --> teamRepository : repository
+teamStatsController --> teamStatsRepository : repository
+
+gameRepository -[#595959,dashed]-> persistException : «create»
+playerRepository -[#595959,dashed]-> persistException : «create»
+playerSeasonRepository -[#595959,dashed]-> persistException : «create»
+playerStatsRepository -[#595959,dashed]-> persistException : «create»
+seasonRepository -[#595959,dashed]-> persistException : «create»
+seasonTeamRepository -[#595959,dashed]-> persistException : «create»
+teamRepository -[#595959,dashed]-> persistException : «create»
+teamStatsRepository -[#595959,dashed]-> persistException : «create»
+
+securityConfig --> userAuthFilter : filter
+
+userAuthFilter --> jwtTokenService : service
+userAuthFilter -[#595959,dashed]-> userDetails : «create»
+userAuthFilter --> userRepository : repository
+
+userController --> userService : service
+userDetails --> user1 : user
+userDetailsService --> userRepository : repository
+
+userService --> securityConfig : configuration
+userService --> jwtTokenService : service
+userService --> userRepository : repository
+userService -[#595959,dashed]-> user1 : «create»
+@enduml
