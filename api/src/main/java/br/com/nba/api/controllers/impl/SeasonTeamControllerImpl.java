@@ -21,9 +21,9 @@ public class SeasonTeamControllerImpl extends ControllerBaseImpl<SeasonTeam, Str
     }
 
 
-    @GetMapping(path = {"/{id_season}/teams"})
-    public ResponseEntity<List<SeasonTeam>> findAll(@PathVariable String id_season) throws PersistenciaDawException {
-        List<SeasonTeam> all = ((SeasonTeamRepository) repository).getAllTeamsBySeason(id_season);
+    @GetMapping(path = {"/{idSeason}/teams"})
+    public ResponseEntity<List<SeasonTeam>> findAll(@PathVariable String idSeason) throws PersistenciaDawException {
+        List<SeasonTeam> all = ((SeasonTeamRepository) repository).getAllTeamsBySeason(idSeason);
         return ResponseEntity.ok(all);
     }
 }

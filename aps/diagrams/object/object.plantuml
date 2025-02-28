@@ -1,0 +1,182 @@
+@startuml
+
+!theme plain
+skinparam linetype polyline
+
+object season1 as "season : Season" {
+    id = "2025"
+    year = "2024-25"
+}
+
+object team1 as "team : Team" {
+    id = "T1"
+    nickname = "Eagles"
+    abbreviation = "EGL"
+    fullName = "Eagles United"
+    city = "New York"
+    yearFounded = "1900"
+    state = "NY"
+}
+
+object team2 as "team : Team" {
+    id = "T2"
+    nickname = "Tigers"
+    abbreviation = "TGR"
+    fullName = "Tigers FC"
+    city = "Chicago"
+    yearFounded = "1920"
+    state = "IL"
+}
+
+object game1 as "game : Game" {
+    id = "G1"
+    matchup = "Eagles vs Tigers"
+}
+
+object player1 as "player : Player" {
+    id = "P1"
+    name = "Alice"
+    position = "Forward"
+    birthDate = "1990-01-01"
+    age = "35"
+    nickName = "Ally"
+    shirtNumber = "9"
+    weight = "70kg"
+    height = "170cm"
+}
+
+object playerSeason1 as "playerSeason : PlayerSeason" {
+    id = "PS1"
+}
+
+object playerStats1 as "playerStatistics : PlayerStatistics" {
+    id = "PST1"
+    points = "25"
+    freeThrows = "5"
+    threePointShots = "3"
+    blocks = "1"
+    rebounds = "7"
+    steals = "2"
+    assistances = "4"
+    perimeterBaskets = "6"
+}
+
+object seasonTeam1 as "seasonTeam : SeasonTeam" {
+    id = "ST1"
+}
+
+object teamStats1 as "teamStatistics : TeamStatistics" {
+    id = "TSTAT1"
+    wl = "W"
+    points = "100"
+    threePointShots = "10"
+    freeThrows = "20"
+    assistances = "15"
+    perimeterBaskets = "30"
+    steals = "5"
+    rebounds = "50"
+    blocks = "3"
+}
+
+object user1 as "user : User" {
+    id = "U1"
+    username = "johndoe"
+    password = "secret"
+}
+
+object userDTO as "userDTO : UserDTO" {
+    username = "johndoe"
+    password = "secret"
+}
+
+object userDetails as "userDetails : UserDetailsImpl" {
+    username = "johndoe"
+    password = "secret"
+    accountNonExpired = "true"
+    accountNonLocked = "true"
+    enabled = "true"
+    credentialsNonExpired = "true"
+}
+
+object jwtTokenService as "JwtTokenService"
+object persistException as "PersistenciaDawException"
+object securityConfig as "SecurityConfiguration"
+
+object gameController as "GameControllerImpl"
+object playerController as "PlayerControllerImpl"
+object playerSeasonController as "PlayerSeasonControllerImpl"
+object playerStatsController as "PlayerStatisticsControllerImpl"
+object seasonController as "SeasonControllerImpl"
+object seasonTeamController as "SeasonTeamControllerImpl"
+object teamController as "TeamControllerImpl"
+object teamStatsController as "TeamStatisticsControllerImpl"
+object userController as "UserControllerImpl"
+
+object gameRepository as "GameRepositoryImpl\nentityName: 'GameEntity'"
+object playerRepository as "PlayerRepositoryImpl\nentityName: 'PlayerEntity'"
+object playerSeasonRepository as "PlayerSeasonRepositoryImpl\nentityName: 'PlayerSeasonEntity'"
+object playerStatsRepository as "PlayerStatisticsRepositoryImpl\nentityName: 'PlayerStatsEntity'"
+object seasonRepository as "SeasonRepositoryImpl\nentityName: 'SeasonEntity'"
+object seasonTeamRepository as "SeasonTeamRepositoryImpl\nentityName: 'SeasonTeamEntity'"
+object teamRepository as "TeamRepositoryImpl\nentityName: 'TeamEntity'"
+object teamStatsRepository as "TeamStatisticsRepositoryImpl\nentityName: 'TeamStatsEntity'"
+object userRepository as "UserRepository"
+
+object userService as "UserServiceImpl"
+object userDetailsService as "UserDetailsServiceImpl"
+object userAuthFilter as "UserAuthenticationFilter"
+
+game1 --> season1 : season
+game1 --> team1 : homeTeam
+game1 --> team2 : awayTeam
+game1 --> team1 : winnerTeam
+
+player1 --> team1 : team
+
+playerSeason1 --> player1 : player
+playerSeason1 --> season1 : season
+
+
+playerStats1 --> game1 : game
+playerStats1 --> player1 : player
+
+
+seasonTeam1 --> season1 : season
+seasonTeam1 --> team2 : team
+
+teamStats1 --> game1 : game
+teamStats1 --> team1 : team
+
+gameController --> gameRepository : repository
+playerController --> playerRepository : repository
+playerSeasonController --> playerSeasonRepository : repository
+playerStatsController --> playerStatsRepository : repository
+seasonController --> seasonRepository : repository
+seasonTeamController --> seasonTeamRepository : repository
+teamController --> teamRepository : repository
+teamStatsController --> teamStatsRepository : repository
+
+gameRepository -[#595959,dashed]-> persistException : «create»
+playerRepository -[#595959,dashed]-> persistException : «create»
+playerSeasonRepository -[#595959,dashed]-> persistException : «create»
+playerStatsRepository -[#595959,dashed]-> persistException : «create»
+seasonRepository -[#595959,dashed]-> persistException : «create»
+seasonTeamRepository -[#595959,dashed]-> persistException : «create»
+teamRepository -[#595959,dashed]-> persistException : «create»
+teamStatsRepository -[#595959,dashed]-> persistException : «create»
+
+securityConfig --> userAuthFilter : filter
+
+userAuthFilter --> jwtTokenService : service
+userAuthFilter -[#595959,dashed]-> userDetails : «create»
+userAuthFilter --> userRepository : repository
+
+userController --> userService : service
+userDetails --> user1 : user
+userDetailsService --> userRepository : repository
+
+userService --> securityConfig : configuration
+userService --> jwtTokenService : service
+userService --> userRepository : repository
+userService -[#595959,dashed]-> user1 : «create»
+@enduml

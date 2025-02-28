@@ -1,4 +1,8 @@
 @startuml
+
+!theme plain
+skinparam linetype polyline
+
 left to right direction
 (CRUD de Temporadas) as seasons
 (CRUD de Jogadores) as players

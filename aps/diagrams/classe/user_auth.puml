@@ -1,0 +1,108 @@
+@startuml
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class SecurityConfiguration {
+  - filter: UserAuthenticationFilter
+  + ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED: String[]
+  + passwordEncoder(): PasswordEncoder
+  ~ authenticationManager(AuthenticationConfiguration): AuthenticationManager
+  + securityFilterChain(HttpSecurity): SecurityFilterChain
+}
+
+class JwtTokenService {
+  - issuer: String
+  - secret: String
+  + getSubjectFromToken(String): String
+  - creationDate(): Instant
+  + generateToken(User): String
+  - expirationDate(): Instant
+}
+
+interface TokenService << interface >> {
+  + getSubjectFromToken(String): String
+  + generateToken(User): String
+}
+
+class User {
+  - id: String
+  - password: String
+  - username: String
+  + getId(): String
+  + getUsername(): String
+  + getPassword(): String
+  + setId(String): void
+  + setUsername(String): void
+  + setPassword(String): void
+}
+class UserAuthenticationFilter {
+  - service: TokenService
+  - repository: UserRepository
+  - checkIfEndpointIsNotPublic(HttpServletRequest): boolean
+  # doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain): void
+  - recoveryToken(HttpServletRequest): String?
+}
+class UserControllerImpl {
+  - service: UserService
+  + register(UserDTO): ResponseEntity<Void>
+  + login(UserDTO): ResponseEntity<String>
+}
+entity UserDTO << record >> {
+  - password: String
+  - username: String
+  + username(): String
+  + password(): String
+}
+
+
+class UserDetailsImpl {
+  - user: User
+  + isEnabled(): boolean
+  + getUser(): User
+  + getPassword(): String
+  + isAccountNonLocked(): boolean
+  + isCredentialsNonExpired(): boolean
+  + getUsername(): String
+  + getAuthorities(): Collection<GrantedAuthority>
+  + isAccountNonExpired(): boolean
+}
+
+class UserDetailsServiceImpl {
+  - repository: UserRepository
+  + loadUserByUsername(String): UserDetails
+}
+
+interface UserRepository << interface >> {
+  + findByUsername(String): Optional<User>
+}
+
+
+interface UserService << interface >> {
+  + authenticate(UserDTO): String
+  + register(UserDTO): void
+}
+class UserServiceImpl {
+  - manager: AuthenticationManager
+  - configuration: SecurityConfiguration
+  - service: TokenService
+  - repository: UserRepository
+  + authenticate(UserDTO): String
+  + register(UserDTO): void
+}
+
+
+JwtTokenService                 -[#008200,dashed]-^  TokenService                   
+SecurityConfiguration          "1" *-[#595959,plain]-> "filter\n1" UserAuthenticationFilter       
+UserAuthenticationFilter       "1" *-[#595959,plain]-> "service\n1" TokenService                   
+UserAuthenticationFilter        -[#595959,dashed]->  UserDetailsImpl                : "«create»"
+UserAuthenticationFilter       "1" *-[#595959,plain]-> "repository\n1" UserRepository                 
+UserControllerImpl             "1" *-[#595959,plain]-> "service\n1" UserService                    
+UserDetailsImpl                "1" *-[#595959,plain]-> "user\n1" User                           
+UserDetailsServiceImpl         "1" *-[#595959,plain]-> "repository\n1" UserRepository                 
+UserServiceImpl                "1" *-[#595959,plain]-> "configuration\n1" SecurityConfiguration          
+UserServiceImpl                "1" *-[#595959,plain]-> "service\n1" TokenService                   
+UserServiceImpl                 -[#595959,dashed]->  User                           : "«create»"
+UserServiceImpl                "1" *-[#595959,plain]-> "repository\n1" UserRepository                 
+UserServiceImpl                 -[#008200,dashed]-^  UserService                    
+@enduml
