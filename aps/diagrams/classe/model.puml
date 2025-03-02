@@ -111,5 +111,5 @@ Game "1" -- "1" Team : Vencedor
 PlayerStatistics "N" *-- "1" Game : Estatísticas_do_Jogador
 PlayerStatistics "N" *-- "1" Player : Estatísticas_de
 TeamStatistics "N" *-- "1" Game : Estatísticas_do_Time
-TeamStatistics "1" *-- "1" Team : Estatísticas_de
+TeamStatistics "N" *-- "1" Team : Estatísticas_de
 @enduml
