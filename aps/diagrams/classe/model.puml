@@ -1,4 +1,7 @@
 @startuml
+left to right direction
+skinparam nodesep 200
+skinparam ranksep 300
 skinparam linetype ortho
 
 class Player {
@@ -106,7 +109,7 @@ Game "1" *-- "1" Team : Time_Mandante
 Game "1" *-- "1" Team : Time_Visitante
 Game "1" -- "1" Team : Vencedor
 PlayerStatistics "N" *-- "1" Game : Estatísticas_do_Jogador
-PlayerStatistics "1" *-- "1" Player : Estatísticas_de
+PlayerStatistics "N" *-- "1" Player : Estatísticas_de
 TeamStatistics "N" *-- "1" Game : Estatísticas_do_Time
 TeamStatistics "1" *-- "1" Team : Estatísticas_de
 @enduml
