@@ -1,4 +1,4 @@
-package br.com.nba.api.security.filter;
+package br.com.nba.api.config.security;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -14,7 +14,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import br.com.nba.api.entities.User;
 import br.com.nba.api.entities.UserDetailsImpl;
 import br.com.nba.api.repositories.interfaces.UserRepository;
-import br.com.nba.api.security.config.SecurityConfiguration;
 import br.com.nba.api.services.interfaces.TokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

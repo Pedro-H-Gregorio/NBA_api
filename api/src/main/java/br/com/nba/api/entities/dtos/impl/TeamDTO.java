@@ -1,0 +1,51 @@
+package br.com.nba.api.entities.dtos.impl;
+
+import br.com.nba.api.entities.Team;
+import br.com.nba.api.entities.dtos.interfaces.DTO;
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+public class TeamDTO implements DTO<Team> {
+    @NotNull(message = "Id não pode ser nulo.")
+    @NotBlank(message = "O time deve ter id.")
+    private Integer id;
+
+    @NotNull(message = "Cidade não pode ser nula.")
+    @NotBlank(message = "O time deve ter cidade.")
+    private String city;
+
+    @NotNull(message = "Time não pode ser nulo.")
+    @NotBlank(message = "O time deve ter apelido.")
+    private String nickname;
+
+    @NotNull(message = "Abreviação não pode ser nula.")
+    @NotBlank(message = "O time deve ter abreviação.")
+    private String abbreviation;
+
+    @NotNull(message = "Nome completo não pode ser nulo.")
+    @NotBlank(message = "O time deve ter nome completo.")
+    private String fullName;
+
+    @NotNull(message = "Ano fundado não pode ser nulo.")
+    @NotBlank(message = "O time deve ter ano fundado.")
+    private Integer yearFounded;
+
+    @NotNull(message = "Estado não pode ser nulo.")
+    @Column(name = "state", nullable = false)
+    @NotBlank(message = "O time deve ter estado.")
+    private String state;
+
+    @Override
+    public Team toEntity() {
+        return new Team(id, city, nickname, abbreviation, fullName, yearFounded, state);
+    }
+}

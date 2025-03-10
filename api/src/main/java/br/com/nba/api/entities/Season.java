@@ -13,9 +13,8 @@ import lombok.NoArgsConstructor;
 @Entity(name = "SEASON")
 @Table(name = "SEASON")
 public class Season {
-
     @Id
-    @Column(name = "id",length = 6, nullable = false, updatable = false, unique = true)
+    @Column(name = "id", length = 6, nullable = false, updatable = false, unique = true)
     private String id;
 
     @Column(name = "year", length = 7, nullable = false, unique = true)
