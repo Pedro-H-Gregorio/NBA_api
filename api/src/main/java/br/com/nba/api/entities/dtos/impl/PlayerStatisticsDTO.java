@@ -37,8 +37,10 @@ public class PlayerStatisticsDTO implements DTO<PlayerStatistics> {
 
     private Integer freeThrows;
 
+    @NotNull(message = "Jogador não pode ser nulo.")
     private Player player;
 
+    @NotNull(message = "Jogo não pode ser nulo.")
     private Game game;
 
     @Override
