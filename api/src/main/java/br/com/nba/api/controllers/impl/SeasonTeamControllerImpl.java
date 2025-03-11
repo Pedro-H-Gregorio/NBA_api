@@ -20,10 +20,10 @@ public class SeasonTeamControllerImpl extends ControllerBaseImpl<SeasonTeam, Str
         super(repository);
     }
 
-
-    @GetMapping(path = {"/{idSeason}/teams"})
-    public ResponseEntity<List<SeasonTeam>> findAll(@PathVariable String idSeason) throws PersistenciaDawException {
-        List<SeasonTeam> all = ((SeasonTeamRepository) repository).getAllTeamsBySeason(idSeason);
+    //busca todos os times de uma temporada
+    @GetMapping(path = {"/{id_season}/teams"})
+    public ResponseEntity<List<SeasonTeam>> findAll(@PathVariable String id_season) throws PersistenciaDawException {
+        List<SeasonTeam> all = ((SeasonTeamRepository) repository).getAllTeamsBySeason(id_season);
         return ResponseEntity.ok(all);
     }
 }

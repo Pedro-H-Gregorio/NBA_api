@@ -15,6 +15,7 @@ public class SeasonControllerImpl extends ControllerBaseImpl<Season, String> imp
 
     @Autowired
     protected SeasonControllerImpl(SeasonRepository repository) {
+
         super(repository);
     }
 }

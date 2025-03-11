@@ -29,7 +29,7 @@ public class PlayerControllerImpl extends ControllerBaseImpl<Player, Integer> im
     protected PlayerControllerImpl(PlayerRepository repository) {
         super(repository);
     }
-
+/*
     @PostMapping
     public ResponseEntity<Player> createPlayer(@RequestBody Player player) throws PersistenciaDawException {
         Optional<Player> savedPlayer = Optional.ofNullable(repository.save(player));
@@ -65,5 +65,5 @@ public class PlayerControllerImpl extends ControllerBaseImpl<Player, Integer> im
     public ResponseEntity<List<Player>> findAllPlayers() throws PersistenciaDawException {
         List<Player> players = repository.getAll();
         return ResponseEntity.ok(players);
-    }
+    }*/
 }
