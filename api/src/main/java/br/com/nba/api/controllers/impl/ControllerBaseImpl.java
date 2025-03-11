@@ -47,16 +47,14 @@ public class ControllerBaseImpl<E, D extends DTO<E>, T> implements ControllerBas
     @Override
     @DeleteMapping(path = { "/{id}" })
     public ResponseEntity<Object> delete(@PathVariable("id") T id) {
-        Optional<E> entity = service.getById(id);
-        return entity.map(object -> {
-            service.delete(id);
-            return ResponseEntity.ok().build();
-        }).orElse(ResponseEntity.notFound().build());
+        service.delete(id);
+        return ResponseEntity.ok().build();
     }
 
     @Override
     @GetMapping
-    public ResponseEntity<Page<E>> findAll(@RequestParam Map<String, Object> filters, @PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<Page<E>> findAll(@RequestParam Map<String, Object> filters,
+            @PageableDefault(size = 10) Pageable pageable) {
         Specification<E> spec = new GenericSpecification<>(filters);
         Page<E> all = service.getAll(spec, pageable);
         return ResponseEntity.ok(all);
