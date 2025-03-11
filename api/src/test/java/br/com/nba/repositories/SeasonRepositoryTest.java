@@ -22,10 +22,9 @@ class SeasonRepositoryTest {
     @Autowired
     private SeasonRepository repository;
 
-
     @Test
     @Order(1)
-    void testSave() throws PersistenciaDawException {
+    void testSave() {
         Season season = new Season();
         season.setId("2024");
         season.setYear("2023-24");
@@ -35,7 +34,7 @@ class SeasonRepositoryTest {
 
     @Test
     @Order(2)
-    void testGetByID() throws PersistenciaDawException {
+    void testGetByID() {
         Optional<Season> season = repository.findById("2024");
         assertNotNull(season.get());
         assertEquals("2023-24", season.get().getYear());
@@ -44,7 +43,7 @@ class SeasonRepositoryTest {
 
     @Test
     @Order(3)
-    void testUpdate() throws PersistenciaDawException {
+    void testUpdate() {
         Optional<Season> season = repository.findById("2024");
         Season seasonToUpdate = season.get();
         seasonToUpdate.setYear("2024-25");
@@ -55,7 +54,7 @@ class SeasonRepositoryTest {
 
     @Test
     @Order(4)
-    void testGetAll() throws PersistenciaDawException {
+    void testGetAll() {
         List<Season> seasons = repository.findAll();
         assertFalse(seasons.isEmpty());
         System.out.println(seasons);
@@ -63,7 +62,7 @@ class SeasonRepositoryTest {
 
     @Test
     @Order(5)
-    void testDelete() throws PersistenciaDawException {
+    void testDelete() {
         repository.deleteById("2024");
         assertNull(repository.findById("2024").get());
     }

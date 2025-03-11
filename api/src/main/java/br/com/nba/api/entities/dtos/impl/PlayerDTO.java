@@ -1,6 +1,9 @@
 package br.com.nba.api.entities.dtos.impl;
 
+import java.util.List;
+
 import br.com.nba.api.entities.Player;
+import br.com.nba.api.entities.PlayerStatistics;
 import br.com.nba.api.entities.Team;
 import br.com.nba.api.entities.dtos.interfaces.DTO;
 import jakarta.validation.constraints.NotBlank;
@@ -43,8 +46,10 @@ public class PlayerDTO implements DTO<Player> {
 
     private Team team;
 
+    private List<PlayerStatistics> statistics;
+
     @Override
     public Player toEntity() {
-        return new Player(id, name, nickName, shirtNumber, position, height, weight, birthDate, age, team);
+        return new Player(id, name, nickName, shirtNumber, position, height, weight, birthDate, age, team, statistics);
     }
 }

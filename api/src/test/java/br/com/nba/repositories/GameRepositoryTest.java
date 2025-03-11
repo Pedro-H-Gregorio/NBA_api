@@ -34,7 +34,7 @@ public class GameRepositoryTest {
 
     @Test
     @Order(1)
-    void testSave() throws PersistenciaDawException {
+    void testSave() {
         Season season = new Season();
         season.setId("22022");
         season.setYear("2022-23");
@@ -74,7 +74,7 @@ public class GameRepositoryTest {
 
     @Test
     @Order(2)
-    void testGetByID() throws PersistenciaDawException {
+    void testGetByID() {
         Optional<Game> game = gameRepository.findById("0022200001");
         assertNotNull(game.get());
         assertEquals("0022200001", game.get().getId());
@@ -84,7 +84,7 @@ public class GameRepositoryTest {
 
     @Test
     @Order(3)
-    void testUpdate() throws PersistenciaDawException {
+    void testUpdate() {
         Optional<Game> game = gameRepository.findById("0022200001");
         Game gameToUpdate = game.get();
         gameToUpdate.setMatchup("BOS X PHI");
@@ -96,7 +96,7 @@ public class GameRepositoryTest {
 
     @Test
     @Order(4)
-    void testGetAll() throws PersistenciaDawException {
+    void testGetAll() {
         List<Game> games = gameRepository.findAll();
         assertNotNull(games);
         assertFalse(games.isEmpty());
@@ -107,7 +107,7 @@ public class GameRepositoryTest {
 
     @Test
     @Order(5)
-    void testDelete() throws PersistenciaDawException {
+    void testDelete() {
         assertDoesNotThrow(() -> gameRepository.deleteById("0022200001"));
         assertNull(gameRepository.findById("0022200002").get());
         teamRepository.deleteById(1610612738);

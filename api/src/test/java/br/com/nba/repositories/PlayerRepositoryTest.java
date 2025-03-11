@@ -29,7 +29,7 @@ public class PlayerRepositoryTest {
 
     @Test
     @Order(1)
-    void testSave() throws PersistenciaDawException {
+    void testSave() {
         Team team = new Team();
         team.setId(1610612737);
         team.setCity("Atlanta");
@@ -55,7 +55,7 @@ public class PlayerRepositoryTest {
 
     @Test
     @Order(2)
-    void testGetByID() throws PersistenciaDawException {
+    void testGetByID() {
         Optional<Player> player = playerRepository.findById(1631495);
         assertNotNull(player);
         assertEquals(1631495, player.get().getId());
@@ -72,7 +72,7 @@ public class PlayerRepositoryTest {
 
     @Test
     @Order(3)
-    void testUpdate() throws PersistenciaDawException {
+    void testUpdate() {
         Optional<Player> player = playerRepository.findById(1631495);
         Player playerToUpdate = player.get();
         playerToUpdate.setName("Donovan Williams Fake");
@@ -84,7 +84,7 @@ public class PlayerRepositoryTest {
 
     @Test
     @Order(4)
-    void testGetAll() throws PersistenciaDawException {
+    void testGetAll() {
         List<Player> players = playerRepository.findAll();
         assertNotNull(players);
         assertFalse(players.isEmpty());
@@ -95,7 +95,7 @@ public class PlayerRepositoryTest {
 
     @Test
     @Order(5)
-    void testDelete() throws PersistenciaDawException {
+    void testDelete() {
         assertDoesNotThrow(() -> playerRepository.deleteById(1631495));
         assertNull(playerRepository.findById(1631495).get());
         teamRepository.deleteById(1610612737);

@@ -1,5 +1,10 @@
 package br.com.nba.api.entities;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity(name = "PLAYER")
 @Table(name = "PLAYER")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Player {
 
     @Id
@@ -45,4 +51,7 @@ public class Player {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "team_id", foreignKey = @ForeignKey(name = "player_team_id"))
     private Team team;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "player")
+    private List<PlayerStatistics> statistics;
 }

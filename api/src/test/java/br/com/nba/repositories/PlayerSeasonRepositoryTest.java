@@ -39,7 +39,7 @@ public class PlayerSeasonRepositoryTest {
 
     @Test
     @Order(1)
-    void testSave() throws PersistenciaDawException {
+    void testSave() {
         Team team = new Team();
         team.setId(1610612737);
         team.setCity("Atlanta");
@@ -71,20 +71,21 @@ public class PlayerSeasonRepositoryTest {
         teamRepository.save(team);
         seasonRepository.save(season);
         playerRepository.save(player);
-        assertDoesNotThrow(()-> playerSeasonRepository.save(playerSeason)); ;
+        assertDoesNotThrow(() -> playerSeasonRepository.save(playerSeason));
+        ;
     }
 
     @Test
     @Order(2)
-    void testGetByID() throws PersistenciaDawException {
-        Optional<PlayerSeason> playerSeason = playerSeasonRepository.findById("2024"+1631495);
+    void testGetByID() {
+        Optional<PlayerSeason> playerSeason = playerSeasonRepository.findById("2024" + 1631495);
         assertNotNull(playerSeason);
         System.out.println(playerSeason);
     }
 
     @Test
     @Order(3)
-    void testGetAll() throws PersistenciaDawException {
+    void testGetAll() {
         List<PlayerSeason> playerSeasons = playerSeasonRepository.findAll();
         assertNotNull(playerSeasons);
         assertFalse(playerSeasons.isEmpty());
@@ -95,9 +96,9 @@ public class PlayerSeasonRepositoryTest {
 
     @Test
     @Order(4)
-    void testDelete() throws PersistenciaDawException {
-        assertDoesNotThrow(() -> playerSeasonRepository.deleteById("2024"+1631495));
-        assertNull(playerSeasonRepository.findById("2024"+1631495).get());
+    void testDelete() {
+        assertDoesNotThrow(() -> playerSeasonRepository.deleteById("2024" + 1631495));
+        assertNull(playerSeasonRepository.findById("2024" + 1631495).get());
         playerRepository.deleteById(1631495);
         teamRepository.deleteById(1610612737);
         seasonRepository.deleteById("2024");
