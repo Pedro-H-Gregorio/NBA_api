@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TeamStatisticsServiceImpl extends ServiceBaseImpl<TeamStatistics, String> implements TeamStatisticsService {
-
+public class TeamStatisticsServiceImpl extends ServiceBaseImpl<TeamStatistics, String>
+        implements TeamStatisticsService {
     @Autowired
     public TeamStatisticsServiceImpl(@Qualifier("teamStatisticsRepository") TeamStatisticsRepository repository) {
         super(repository);
