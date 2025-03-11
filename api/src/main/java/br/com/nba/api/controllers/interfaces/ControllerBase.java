@@ -33,5 +33,6 @@ public interface ControllerBase<E, D extends DTO<E>, T> {
 
     @Operation(summary = "Obtém todas as entidades", description = "Retorna uma lista paginada com todas as entidades armazenadas no sistema.", tags = {
             "Read" })
-    ResponseEntity<Page<E>> findAll(@RequestParam Map<String, Object> filters, @PageableDefault(size = 10) Pageable pageable);
+    ResponseEntity<Page<E>> findAll(
+            @PageableDefault(size = 10) Pageable pageable, @RequestParam Map<String, Object> filters);
 }

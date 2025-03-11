@@ -53,9 +53,11 @@ public class ControllerBaseImpl<E, D extends DTO<E>, T> implements ControllerBas
 
     @Override
     @GetMapping
-    public ResponseEntity<Page<E>> findAll(@RequestParam Map<String, Object> filters,
-            @PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<Page<E>> findAll(@PageableDefault(size = 10) Pageable pageable, @RequestParam Map<String, Object> filters) {
         Specification<E> spec = new GenericSpecification<>(filters);
+        filters.remove("page");
+        filters.remove("size");
+        filters.remove("sort");
         Page<E> all = service.getAll(spec, pageable);
         return ResponseEntity.ok(all);
     }
