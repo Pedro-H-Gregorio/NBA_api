@@ -8,6 +8,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +34,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleDataIntegrationExceptions(DataIntegrityViolationException ex) {
         return ResponseEntity.badRequest()
                 .body(ex.getMostSpecificCause().getMessage());
+    }
+
+    @ExceptionHandler({ EntityExistsException.class, EntityNotFoundException.class })
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handleEntityExceptions(Exception ex) {
+        return ResponseEntity.badRequest()
+                .body(ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)

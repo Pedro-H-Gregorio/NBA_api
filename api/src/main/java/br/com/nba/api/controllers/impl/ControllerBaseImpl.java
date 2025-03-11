@@ -49,12 +49,8 @@ public class ControllerBaseImpl<E, D extends DTO<E>, T> implements ControllerBas
     public ResponseEntity<Object> delete(@PathVariable("id") T id) {
         Optional<E> entity = service.getById(id);
         return entity.map(object -> {
-            try {
-                service.delete(id);
-                return ResponseEntity.ok().build();
-            } catch (RuntimeException e) {
-                throw new RuntimeException(e);
-            }
+            service.delete(id);
+            return ResponseEntity.ok().build();
         }).orElse(ResponseEntity.notFound().build());
     }
 
