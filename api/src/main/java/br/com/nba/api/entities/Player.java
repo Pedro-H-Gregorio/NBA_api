@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity(name = "PLAYER")
 @Table(name = "PLAYER")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Player.class)
 public class Player {
 
     @Id

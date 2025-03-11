@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity(name = "TEAM")
 @Table(name = "TEAM")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Team.class)
 public class Team {
     @Id
     @Column(name = "id", nullable = false, unique = true, updatable = false)
