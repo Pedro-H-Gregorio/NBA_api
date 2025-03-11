@@ -29,41 +29,4 @@ public class PlayerControllerImpl extends ControllerBaseImpl<Player, Integer> im
     protected PlayerControllerImpl(PlayerRepository repository) {
         super(repository);
     }
-/*
-    @PostMapping
-    public ResponseEntity<Player> createPlayer(@RequestBody Player player) throws PersistenciaDawException {
-        Optional<Player> savedPlayer = Optional.ofNullable(repository.save(player));
-        return savedPlayer.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Player> findPlayerById(@PathVariable("id") Integer id) throws PersistenciaDawException {
-        Optional<Player> player = Optional.ofNullable(repository.getByID(id));
-        return player.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Player> updatePlayer(@PathVariable("id") Integer id, @RequestBody Player player) throws PersistenciaDawException {
-        Optional<Player> updatedPlayer = Optional.ofNullable(repository.update(player));
-        return updatedPlayer.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletePlayer(@PathVariable("id") Integer id) throws PersistenciaDawException {
-        Optional<Player> player = Optional.ofNullable(repository.getByID(id));
-        return player.map(p -> {
-            try {
-                repository.delete(id);
-            } catch (PersistenciaDawException e) {
-                e.printStackTrace();
-            }
-            return ResponseEntity.ok().build();
-        }).orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Player>> findAllPlayers() throws PersistenciaDawException {
-        List<Player> players = repository.getAll();
-        return ResponseEntity.ok(players);
-    }*/
 }
