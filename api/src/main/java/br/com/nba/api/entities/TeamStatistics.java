@@ -8,12 +8,16 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
 @Entity(name = "TEAM_STATISTICS")
 @Table(name = "TEAM_STATISTICS")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class TeamStatistics {
     @Id
     @Column(name = "id", nullable = false, unique = true, updatable = false)

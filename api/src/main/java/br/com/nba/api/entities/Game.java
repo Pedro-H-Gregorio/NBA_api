@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -40,5 +42,6 @@ public class Game {
     @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "winner_team_id", nullable = false, foreignKey = @ForeignKey(name = "game_team_winnerfk"))
+    @JsonIgnore
     private Team winnerTeam;
 }

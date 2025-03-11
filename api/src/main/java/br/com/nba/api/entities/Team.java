@@ -1,8 +1,15 @@
 package br.com.nba.api.entities;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,8 +22,8 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity(name = "TEAM")
 @Table(name = "TEAM")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Team {
-
     @Id
     @Column(name = "id", nullable = false, unique = true, updatable = false)
     private Integer id;
@@ -38,4 +45,7 @@ public class Team {
 
     @Column(name = "state", nullable = false)
     private String state;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "team")
+    List<TeamStatistics> statistics;
 }

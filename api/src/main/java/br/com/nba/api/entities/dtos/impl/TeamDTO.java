@@ -1,6 +1,9 @@
 package br.com.nba.api.entities.dtos.impl;
 
+import java.util.List;
+
 import br.com.nba.api.entities.Team;
+import br.com.nba.api.entities.TeamStatistics;
 import br.com.nba.api.entities.dtos.interfaces.DTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -40,8 +43,10 @@ public class TeamDTO implements DTO<Team> {
     @NotBlank(message = "Estado não pode ser uma string vázia.")
     private String state;
 
+    List<TeamStatistics> statistics;
+
     @Override
     public Team toEntity() {
-        return new Team(id, city, nickname, abbreviation, fullName, yearFounded, state);
+        return new Team(id, city, nickname, abbreviation, fullName, yearFounded, state, statistics);
     }
 }
