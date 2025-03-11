@@ -29,9 +29,6 @@ public abstract class ServiceBaseImpl<E, T> implements ServiceBase<E, T> {
     }
 
     public E update(E entity) {
-        if (!repository.exists(Example.of(entity)))
-            throw new EntityNotFoundException("Entidade não encontrada.");
-
         return repository.save(entity);
     }
 
