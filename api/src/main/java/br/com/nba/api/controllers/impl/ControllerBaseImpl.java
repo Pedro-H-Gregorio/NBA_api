@@ -3,14 +3,17 @@ package br.com.nba.api.controllers.impl;
 import br.com.nba.api.controllers.interfaces.ControllerBase;
 import br.com.nba.api.entities.dtos.interfaces.DTO;
 import br.com.nba.api.services.interfaces.ServiceBase;
+import br.com.nba.api.services.specification.GenericSpecification;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class ControllerBaseImpl<E, D extends DTO<E>, T> implements ControllerBase<E, D, T> {
@@ -57,8 +60,9 @@ public class ControllerBaseImpl<E, D extends DTO<E>, T> implements ControllerBas
 
     @Override
     @GetMapping
-    public ResponseEntity<Page<E>> findAll(@PageableDefault(size = 10) Pageable pageable) {
-        Page<E> all = service.getAll(pageable);
+    public ResponseEntity<Page<E>> findAll(@RequestParam Map<String, Object> filters, @PageableDefault(size = 10) Pageable pageable) {
+        Specification<E> spec = new GenericSpecification<>(filters);
+        Page<E> all = service.getAll(spec, pageable);
         return ResponseEntity.ok(all);
     }
 }

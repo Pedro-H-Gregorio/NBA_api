@@ -2,7 +2,6 @@ package br.com.nba.repositories;
 
 import br.com.nba.api.ApiApplication;
 import br.com.nba.api.entities.Season;
-import br.com.nba.api.repositories.PersistenciaDawException;
 import br.com.nba.api.repositories.interfaces.SeasonRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

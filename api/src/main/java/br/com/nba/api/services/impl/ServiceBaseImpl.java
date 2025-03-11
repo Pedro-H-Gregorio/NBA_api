@@ -3,10 +3,9 @@ package br.com.nba.api.services.impl;
 import br.com.nba.api.repositories.interfaces.RepositoryBase;
 import br.com.nba.api.services.interfaces.ServiceBase;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ public abstract class ServiceBaseImpl<E,T> implements ServiceBase<E,T> {
     private final RepositoryBase<E, T> repository;
 
 
-    public ServiceBaseImpl(RepositoryBase<E,T> repository) {
+    protected ServiceBaseImpl(RepositoryBase<E,T> repository) {
         this.repository = repository;
     }
 
@@ -29,8 +28,8 @@ public abstract class ServiceBaseImpl<E,T> implements ServiceBase<E,T> {
         return repository.save(entity);
     }
 
-    public Page<E> getAll(Pageable pageable) {
-        return repository.findAll(pageable);
+    public Page<E> getAll(Specification<E> specification, Pageable pageable) {
+        return repository.findAll(specification, pageable);
     }
 
     public Optional<E> getById(T id) {

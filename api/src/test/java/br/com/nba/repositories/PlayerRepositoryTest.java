@@ -3,7 +3,6 @@ package br.com.nba.repositories;
 import br.com.nba.api.ApiApplication;
 import br.com.nba.api.entities.Player;
 import br.com.nba.api.entities.Team;
-import br.com.nba.api.repositories.PersistenciaDawException;
 import br.com.nba.api.repositories.interfaces.PlayerRepository;
 import br.com.nba.api.repositories.interfaces.TeamRepository;
 import org.junit.jupiter.api.*;

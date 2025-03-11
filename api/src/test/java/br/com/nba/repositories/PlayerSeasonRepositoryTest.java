@@ -5,7 +5,6 @@ import br.com.nba.api.entities.Player;
 import br.com.nba.api.entities.PlayerSeason;
 import br.com.nba.api.entities.Season;
 import br.com.nba.api.entities.Team;
-import br.com.nba.api.repositories.PersistenciaDawException;
 import br.com.nba.api.repositories.interfaces.PlayerRepository;
 import br.com.nba.api.repositories.interfaces.PlayerSeasonRepository;
 import br.com.nba.api.repositories.interfaces.SeasonRepository;
