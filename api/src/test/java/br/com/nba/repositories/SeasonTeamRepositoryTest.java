@@ -4,7 +4,6 @@ import br.com.nba.api.ApiApplication;
 import br.com.nba.api.entities.Season;
 import br.com.nba.api.entities.SeasonTeam;
 import br.com.nba.api.entities.Team;
-import br.com.nba.api.repositories.PersistenciaDawException;
 import br.com.nba.api.repositories.interfaces.SeasonRepository;
 import br.com.nba.api.repositories.interfaces.SeasonTeamRepository;
 import br.com.nba.api.repositories.interfaces.TeamRepository;
@@ -14,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -54,21 +54,21 @@ public class SeasonTeamRepositoryTest {
         seasonTeam.setSeason(season);
         seasonRepository.save(season);
         teamRepository.save(team);
-        assertDoesNotThrow(()-> seasonTeamRepository.save(seasonTeam)); ;
+        assertDoesNotThrow(()-> seasonTeamRepository.save(seasonTeam));
     }
 
     @Test
     @Order(2)
     void testGetByID() throws PersistenciaDawException {
-        SeasonTeam seasonTeam = seasonTeamRepository.getByID("2024"+1610612737);
-        assertNotNull(seasonTeam);
+        Optional<SeasonTeam> seasonTeam = seasonTeamRepository.findById("2024"+1610612737);
+        assertNotNull(seasonTeam.get());
         System.out.println(seasonTeam);
     }
 
     @Test
     @Order(3)
     void testGetAll() throws PersistenciaDawException {
-        List<SeasonTeam> seasonTeams = seasonTeamRepository.getAll();
+        List<SeasonTeam> seasonTeams = seasonTeamRepository.findAll();
         assertNotNull(seasonTeams);
         assertFalse(seasonTeams.isEmpty());
         for (SeasonTeam seasonTeam : seasonTeams) {
@@ -79,9 +79,9 @@ public class SeasonTeamRepositoryTest {
     @Test
     @Order(4)
     void testDelete() throws PersistenciaDawException {
-        seasonTeamRepository.delete("2024"+1610612737);
-        assertNull(seasonTeamRepository.getByID("2024"+1610612737));
-        seasonRepository.delete("2024");
-        teamRepository.delete(1610612737);
+        seasonTeamRepository.deleteById("2024"+1610612737);
+        assertNull(seasonTeamRepository.findById("2024"+1610612737));
+        seasonRepository.deleteById("2024");
+        teamRepository.deleteById(1610612737);
     }
 }

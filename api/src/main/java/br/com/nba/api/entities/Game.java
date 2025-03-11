@@ -15,7 +15,6 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity(name = "GAME")
 @Table(name = "GAME")
 public class Game {
-
     @Id
     @Column(name = "id", unique = true, nullable = false, updatable = false)
     private String id;
@@ -37,7 +36,6 @@ public class Game {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "away_team_id", nullable = false, foreignKey = @ForeignKey(name = "game_team_awayfk"))
     private Team awayTeam;
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)

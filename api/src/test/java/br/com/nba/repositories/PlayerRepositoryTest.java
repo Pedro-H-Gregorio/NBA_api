@@ -3,7 +3,6 @@ package br.com.nba.repositories;
 import br.com.nba.api.ApiApplication;
 import br.com.nba.api.entities.Player;
 import br.com.nba.api.entities.Team;
-import br.com.nba.api.repositories.PersistenciaDawException;
 import br.com.nba.api.repositories.interfaces.PlayerRepository;
 import br.com.nba.api.repositories.interfaces.TeamRepository;
 import org.junit.jupiter.api.*;
@@ -12,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -56,26 +56,27 @@ public class PlayerRepositoryTest {
     @Test
     @Order(2)
     void testGetByID() throws PersistenciaDawException {
-        Player player = playerRepository.getByID(1631495);
+        Optional<Player> player = playerRepository.findById(1631495);
         assertNotNull(player);
-        assertEquals(1631495, player.getId());
-        assertEquals("Donovan Williams", player.getName());
-        assertEquals("Donovan", player.getNickName());
-        assertEquals("G", player.getPosition());
-        assertEquals("6-6", player.getHeight());
-        assertEquals("190", player.getWeight());
-        assertEquals("SEP 06, 2001", player.getBirthDate());
-        assertEquals(21, player.getAge());
-        assertEquals(1610612737, player.getTeam().getId());
+        assertEquals(1631495, player.get().getId());
+        assertEquals("Donovan Williams", player.get().getName());
+        assertEquals("Donovan", player.get().getNickName());
+        assertEquals("G", player.get().getPosition());
+        assertEquals("6-6", player.get().getHeight());
+        assertEquals("190", player.get().getWeight());
+        assertEquals("SEP 06, 2001", player.get().getBirthDate());
+        assertEquals(21, player.get().getAge());
+        assertEquals(1610612737, player.get().getTeam().getId());
         System.out.println(player);
     }
 
     @Test
     @Order(3)
     void testUpdate() throws PersistenciaDawException {
-        Player player = playerRepository.getByID(1631495);
-        player.setName("Donovan Williams Fake");
-        Player updatedPlayer = playerRepository.update(player);
+        Optional<Player> player = playerRepository.findById(1631495);
+        Player playerToUpdate = player.get();
+        playerToUpdate.setName("Donovan Williams Fake");
+        Player updatedPlayer = playerRepository.save(playerToUpdate);
         assertNotNull(updatedPlayer);
         assertEquals("Donovan Williams Fake", updatedPlayer.getName());
         System.out.println(updatedPlayer);
@@ -84,7 +85,7 @@ public class PlayerRepositoryTest {
     @Test
     @Order(4)
     void testGetAll() throws PersistenciaDawException {
-        List<Player> players = playerRepository.getAll();
+        List<Player> players = playerRepository.findAll();
         assertNotNull(players);
         assertFalse(players.isEmpty());
         for (Player player : players) {
@@ -95,8 +96,8 @@ public class PlayerRepositoryTest {
     @Test
     @Order(5)
     void testDelete() throws PersistenciaDawException {
-        assertDoesNotThrow(() -> playerRepository.delete(1631495));
-        assertNull(playerRepository.getByID(1631495));
-        teamRepository.delete(1610612737);
+        assertDoesNotThrow(() -> playerRepository.deleteById(1631495));
+        assertNull(playerRepository.findById(1631495).get());
+        teamRepository.deleteById(1610612737);
     }
 }
