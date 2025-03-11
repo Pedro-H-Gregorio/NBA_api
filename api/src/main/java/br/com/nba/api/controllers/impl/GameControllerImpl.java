@@ -3,7 +3,6 @@ package br.com.nba.api.controllers.impl;
 import br.com.nba.api.controllers.interfaces.GameController;
 import br.com.nba.api.entities.Game;
 import br.com.nba.api.entities.dtos.impl.GameDTO;
-import br.com.nba.api.repositories.interfaces.GameRepository;
 import br.com.nba.api.services.interfaces.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

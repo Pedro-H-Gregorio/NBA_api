@@ -5,7 +5,6 @@ import br.com.nba.api.entities.dtos.interfaces.DTO;
 import br.com.nba.api.services.interfaces.ServiceBase;
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -14,11 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-
 public class ControllerBaseImpl<E, D extends DTO<E>, T> implements ControllerBase<E, D, T> {
     protected ServiceBase<E, T> service;
 
-    protected ControllerBaseImpl(ServiceBase<E,T> service) {
+    protected ControllerBaseImpl(ServiceBase<E, T> service) {
         this.service = service;
     }
 

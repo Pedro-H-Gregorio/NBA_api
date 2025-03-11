@@ -2,7 +2,6 @@ package br.com.nba.api.entities.dtos.impl;
 
 import br.com.nba.api.entities.Team;
 import br.com.nba.api.entities.dtos.interfaces.DTO;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -19,27 +18,26 @@ public class TeamDTO implements DTO<Team> {
     private Integer id;
 
     @NotNull(message = "Cidade não pode ser nula.")
-    @NotBlank(message = "O time deve ter cidade.")
+    @NotBlank(message = "Cidade não pode ser uma string vázia.")
     private String city;
 
     @NotNull(message = "Time não pode ser nulo.")
-    @NotBlank(message = "O time deve ter apelido.")
+    @NotBlank(message = "Time não pode ser uma string vázia.")
     private String nickname;
 
     @NotNull(message = "Abreviação não pode ser nula.")
-    @NotBlank(message = "O time deve ter abreviação.")
+    @NotBlank(message = "Abreviação não pode ser uma string vázia.")
     private String abbreviation;
 
     @NotNull(message = "Nome completo não pode ser nulo.")
-    @NotBlank(message = "O time deve ter nome completo.")
+    @NotBlank(message = "Nome completo pode ser uma string vázia.")
     private String fullName;
 
     @NotNull(message = "Ano fundado não pode ser nulo.")
     private Integer yearFounded;
 
     @NotNull(message = "Estado não pode ser nulo.")
-    @Column(name = "state", nullable = false)
-    @NotBlank(message = "O time deve ter estado.")
+    @NotBlank(message = "Estado não pode ser uma string vázia.")
     private String state;
 
     @Override

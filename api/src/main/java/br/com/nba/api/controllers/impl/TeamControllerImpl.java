@@ -3,7 +3,6 @@ package br.com.nba.api.controllers.impl;
 import br.com.nba.api.controllers.interfaces.TeamController;
 import br.com.nba.api.entities.Team;
 import br.com.nba.api.entities.dtos.impl.TeamDTO;
-import br.com.nba.api.repositories.interfaces.TeamRepository;
 import br.com.nba.api.services.interfaces.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

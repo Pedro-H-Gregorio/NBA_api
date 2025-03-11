@@ -21,7 +21,11 @@ public class SecurityConfiguration {
 
     public static final String[] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
             "/auth/login",
-            "/auth/register"
+            "/auth/register",
+            "/docs",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
     };
 
     @Bean

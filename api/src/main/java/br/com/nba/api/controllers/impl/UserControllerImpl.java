@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.nba.api.controllers.interfaces.UserController;
 import br.com.nba.api.entities.dtos.impl.UserDTO;
 import br.com.nba.api.services.interfaces.UserService;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
-public class UserControllerImpl {
+public class UserControllerImpl implements UserController {
     @Autowired
     private UserService service;
 

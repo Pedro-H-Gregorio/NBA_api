@@ -12,12 +12,11 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @CrossOrigin
 @RestController
 @RequestMapping({ "/season-teams" })
-public class SeasonTeamControllerImpl extends ControllerBaseImpl<SeasonTeam, SeasonTeamDTO, String> implements SeasonTeamController {
+public class SeasonTeamControllerImpl extends ControllerBaseImpl<SeasonTeam, SeasonTeamDTO, String>
+        implements SeasonTeamController {
 
     @Autowired
     protected SeasonTeamControllerImpl(@Qualifier("seasonTeamServiceImpl") SeasonTeamService service) {
@@ -25,7 +24,8 @@ public class SeasonTeamControllerImpl extends ControllerBaseImpl<SeasonTeam, Sea
     }
 
     @GetMapping(path = { "/{idSeason}/teams" })
-    public ResponseEntity<Page<SeasonTeam>> findAll(@PathVariable String idSeason, @PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<Page<SeasonTeam>> findAll(@PathVariable String idSeason,
+            @PageableDefault(size = 10) Pageable pageable) {
         Page<SeasonTeam> all = ((SeasonTeamService) service).getAllTeamsBySeason(idSeason, pageable);
         return ResponseEntity.ok(all);
     }
