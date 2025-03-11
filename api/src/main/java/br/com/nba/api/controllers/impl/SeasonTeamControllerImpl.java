@@ -23,7 +23,7 @@ public class SeasonTeamControllerImpl extends ControllerBaseImpl<SeasonTeam, Sea
         super(service);
     }
 
-    @GetMapping(path = { "/{idSeason}/teams" })
+    @GetMapping(path = { "/season/{idSeason}/teams" })
     public ResponseEntity<Page<SeasonTeam>> findAll(@PathVariable String idSeason,
             @PageableDefault(size = 10) Pageable pageable) {
         Page<SeasonTeam> all = ((SeasonTeamService) service).getAllTeamsBySeason(idSeason, pageable);
