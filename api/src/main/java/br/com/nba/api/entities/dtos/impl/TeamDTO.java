@@ -16,7 +16,6 @@ import lombok.Setter;
 @Getter
 public class TeamDTO implements DTO<Team> {
     @NotNull(message = "Id não pode ser nulo.")
-    @NotBlank(message = "O time deve ter id.")
     private Integer id;
 
     @NotNull(message = "Cidade não pode ser nula.")
@@ -36,7 +35,6 @@ public class TeamDTO implements DTO<Team> {
     private String fullName;
 
     @NotNull(message = "Ano fundado não pode ser nulo.")
-    @NotBlank(message = "O time deve ter ano fundado.")
     private Integer yearFounded;
 
     @NotNull(message = "Estado não pode ser nulo.")

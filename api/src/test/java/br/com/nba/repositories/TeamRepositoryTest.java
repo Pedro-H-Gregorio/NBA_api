@@ -2,8 +2,6 @@ package br.com.nba.repositories;
 
 import br.com.nba.api.ApiApplication;
 import br.com.nba.api.entities.Team;
-import br.com.nba.api.repositories.PersistenciaDawException;
-import br.com.nba.api.repositories.impl.TeamRepositoryImpl;
 import br.com.nba.api.repositories.interfaces.TeamRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +24,7 @@ public class TeamRepositoryTest {
 
     @Test
     @Order(1)
-    void testSave() throws PersistenciaDawException {
+    void testSave() {
         Team team = new Team();
         team.setId(1610612737);
         team.setCity("Atlanta");
@@ -41,8 +40,9 @@ public class TeamRepositoryTest {
 
     @Test
     @Order(2)
-    void testGetByID() throws PersistenciaDawException {
-        Team team = teamRepository.getByID(1610612737);
+    void testGetByID() {
+        Optional<Team> teamOptional = teamRepository.findById(1610612737);
+        Team team = teamOptional.get();
         assertNotNull(team);
         assertEquals(1610612737, team.getId());
         assertEquals("Atlanta", team.getCity());
@@ -56,19 +56,20 @@ public class TeamRepositoryTest {
 
     @Test
     @Order(3)
-    void testUpdate() throws PersistenciaDawException {
-        Team team = teamRepository.getByID(1610612737);
-        team.setCity("Atlanta Fake");
-        Team updatedTeam = teamRepository.update(team);
-        assertNotNull(updatedTeam);
-        assertEquals("Atlanta Fake", updatedTeam.getCity());
+    void testUpdate() {
+        Optional<Team> team = teamRepository.findById(1610612737);
+        Team updatedTeam = team.get();
+        updatedTeam.setCity("Atlanta Fake");
+        Team result = teamRepository.save(updatedTeam);
+        assertNotNull(result);
+        assertEquals("Atlanta Fake", result.getCity());
         System.out.println(team);
     }
 
     @Test
     @Order(4)
-    void testGetAll() throws PersistenciaDawException {
-        List<Team> teams = teamRepository.getAll();
+    void testGetAll() {
+        List<Team> teams = teamRepository.findAll();
         assertNotNull(teams);
         assertFalse(teams.isEmpty());
         for (Team team : teams) {
@@ -78,8 +79,8 @@ public class TeamRepositoryTest {
 
     @Test
     @Order(5)
-    void testDelete() throws PersistenciaDawException {
-        teamRepository.delete(1610612737);
-        assertNull(teamRepository.getByID(1610612737));
+    void testDelete() {
+        teamRepository.deleteById(1610612737);
+        assertNull(teamRepository.findById(1610612737).get());
     }
 }

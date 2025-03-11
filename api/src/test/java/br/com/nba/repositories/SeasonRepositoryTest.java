@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,18 +37,19 @@ class SeasonRepositoryTest {
     @Test
     @Order(2)
     void testGetByID() throws PersistenciaDawException {
-        Season season = repository.getByID("2024");
-        assertNotNull(season);
-        assertEquals("2023-24", season.getYear());
+        Optional<Season> season = repository.findById("2024");
+        assertNotNull(season.get());
+        assertEquals("2023-24", season.get().getYear());
         System.out.println(season);
     }
 
     @Test
     @Order(3)
     void testUpdate() throws PersistenciaDawException {
-        Season season = repository.getByID("2024");
-        season.setYear("2024-25");
-        Season updatedSeason = repository.update(season);
+        Optional<Season> season = repository.findById("2024");
+        Season seasonToUpdate = season.get();
+        seasonToUpdate.setYear("2024-25");
+        Season updatedSeason = repository.save(seasonToUpdate);
 
         assertEquals("2024-25", updatedSeason.getYear());
     }
@@ -55,7 +57,7 @@ class SeasonRepositoryTest {
     @Test
     @Order(4)
     void testGetAll() throws PersistenciaDawException {
-        List<Season> seasons = repository.getAll();
+        List<Season> seasons = repository.findAll();
         assertFalse(seasons.isEmpty());
         System.out.println(seasons);
     }
@@ -63,7 +65,7 @@ class SeasonRepositoryTest {
     @Test
     @Order(5)
     void testDelete() throws PersistenciaDawException {
-        repository.delete("2024");
-        assertNull(repository.getByID("2024"));
+        repository.deleteById("2024");
+        assertNull(repository.findById("2024").get());
     }
 }

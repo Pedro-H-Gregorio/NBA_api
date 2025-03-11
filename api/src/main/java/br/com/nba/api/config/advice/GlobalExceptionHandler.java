@@ -1,4 +1,4 @@
-package br.com.nba.api.config;
+package br.com.nba.api.config.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -4,7 +4,9 @@ import br.com.nba.api.controllers.interfaces.TeamStatisticsController;
 import br.com.nba.api.entities.TeamStatistics;
 import br.com.nba.api.entities.dtos.impl.TeamStatisticsDTO;
 import br.com.nba.api.repositories.interfaces.TeamStatisticsRepository;
+import br.com.nba.api.services.interfaces.TeamStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
@@ -14,7 +16,7 @@ public class TeamStatisticsControllerImpl extends ControllerBaseImpl<TeamStatist
         implements TeamStatisticsController {
 
     @Autowired
-    protected TeamStatisticsControllerImpl(TeamStatisticsRepository repository) {
-        super(repository);
+    protected TeamStatisticsControllerImpl(@Qualifier("teamStatisticsServiceImpl") TeamStatisticsService service) {
+        super(service);
     }
 }
